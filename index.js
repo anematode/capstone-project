@@ -539,7 +539,179 @@
 
   }
 
-  const filenames = `
+  // A tileset has 16x16 tiles, while a texture packer includes textures of any (reasonable) size.
+
+
+  function potpack(boxes) {
+    // calculate total box area and maximum box width
+    let area = 0;
+    let maxWidth = 0;
+
+    for (const box of boxes) {
+      area += box.w * box.h;
+      maxWidth = Math.max(maxWidth, box.w);
+    } // sort the boxes for insertion by height, descending
+
+
+    boxes.sort((a, b) => b.h - a.h); // aim for a squarish resulting container,
+    // slightly adjusted for sub-100% space utilization
+
+    const startWidth = Math.max(Math.ceil(Math.sqrt(area / 0.95)), maxWidth); // start with a single empty space, unbounded at the bottom
+
+    const spaces = [{
+      x: 0,
+      y: 0,
+      w: startWidth,
+      h: Infinity
+    }];
+    let width = 0;
+    let height = 0;
+
+    for (const box of boxes) {
+      // look through spaces backwards so that we check smaller spaces first
+      for (let i = spaces.length - 1; i >= 0; i--) {
+        const space = spaces[i]; // look for empty spaces that can accommodate the current box
+
+        if (box.w > space.w || box.h > space.h) continue; // found the space; add the box to its top-left corner
+        // |-------|-------|
+        // |  box  |       |
+        // |_______|       |
+        // |         space |
+        // |_______________|
+
+        box.x = space.x;
+        box.y = space.y;
+        height = Math.max(height, box.y + box.h);
+        width = Math.max(width, box.x + box.w);
+
+        if (box.w === space.w && box.h === space.h) {
+          // space matches the box exactly; remove it
+          const last = spaces.pop();
+          if (i < spaces.length) spaces[i] = last;
+        } else if (box.h === space.h) {
+          // space matches the box height; update it accordingly
+          // |-------|---------------|
+          // |  box  | updated space |
+          // |_______|_______________|
+          space.x += box.w;
+          space.w -= box.w;
+        } else if (box.w === space.w) {
+          // space matches the box width; update it accordingly
+          // |---------------|
+          // |      box      |
+          // |_______________|
+          // | updated space |
+          // |_______________|
+          space.y += box.h;
+          space.h -= box.h;
+        } else {
+          // otherwise the box splits the space into two spaces
+          // |-------|-----------|
+          // |  box  | new space |
+          // |_______|___________|
+          // | updated space     |
+          // |___________________|
+          spaces.push({
+            x: space.x + box.w,
+            y: space.y,
+            w: space.w - box.w,
+            h: box.h
+          });
+          space.y += box.h;
+          space.h -= box.h;
+        }
+
+        break;
+      }
+    }
+
+    return {
+      w: width,
+      // container width
+      h: height,
+      // container height
+      fill: area / (width * height) || 0 // space utilization
+
+    };
+  }
+
+  class TexturePacker {
+    constructor() {
+      const handle = assetTracker.getHandle();
+      this.subAssetTracker = new AssetLoadTracker();
+
+      this.subAssetTracker.onfinished = () => {
+        handle();
+        this.generateTexturePack();
+        if (this.onfinished) this.onfinished(this.texturePack);
+      }; // Dict between texture name and texture thing
+
+
+      this.textures = {};
+      this.onfinished = null;
+      this.texturePack = new TexturePack();
+    }
+
+    addTexture(textureName, textureFilename = textureName) {
+      const handle = this.subAssetTracker.getHandle();
+      const img = new Image();
+      img.src = "./assets/textures/" + textureFilename + ".png";
+
+      img.onload = () => {
+        handle();
+        this.textures[textureName] = img;
+      };
+    }
+
+    generateTexturePack() {
+      const textureLocations = {};
+      const textureList = Object.entries(this.textures);
+      textureList.sort((a, b) => b.width * b.height - a.width * a.width); // sort by area
+
+      const rects = textureList.map(pair => pair[1]).map(img => ({
+        w: img.width,
+        h: img.height
+      }));
+      const {
+        w,
+        h
+      } = potpack(rects);
+      const textureWidth = Math.pow(2, Math.ceil(Math.log2(w)));
+      const textureHeight = Math.pow(2, Math.ceil(Math.log2(h)));
+      const canv = document.createElement("canvas");
+      canv.width = textureWidth;
+      canv.height = textureHeight;
+      const ctx = canv.getContext('2d');
+
+      for (let i = 0; i < textureList.length; ++i) {
+        // Sorted by area
+        const rect = rects[i];
+        const [textureName, img] = textureList[i];
+        ctx.drawImage(img, 0, 0, img.width, img.height, rect.x, rect.y, rect.w, rect.h);
+        textureLocations[textureName] = rect;
+      }
+
+      this.texturePack.init(canv, textureLocations, this.textures);
+    }
+
+  }
+
+  class TexturePack {
+    constructor() {
+      this.isReady = false;
+    }
+
+    init(texture, textureLocations, textureImages) {
+      this.isReady = true;
+      this.texture = texture;
+      this.textureLocations = textureLocations;
+      this.textureImages = textureImages;
+    }
+
+  }
+
+  const tileNames = function () {
+    return `
 acacia_door_bottom
 acacia_door_top
 acacia_leaves
@@ -1115,13 +1287,27 @@ yellow_stained_glass
 yellow_stained_glass_pane_top
 yellow_terracotta
 yellow_wool`.split('\n');
-  const loader = new TilesetLoader();
+  };
 
-  for (const a of filenames.slice(0, 150)) {
-    if (a) loader.addTile(a);
+  const tileLoader = new TilesetLoader();
+
+  for (const a of tileNames.slice(0, 150)) {
+    if (a) tileLoader.addTile(a);
   }
 
-  const tileset = window.tileset = loader.tileset;
+  const tileset = window.tileset = tileLoader.tileset;
+  const texturePacker = new TexturePacker();
+
+  const textureNames = function () {
+    return `
+  `;
+  };
+
+  for (const a of textureNames.slice(0, 150)) {
+    if (a) texturePacker.addTile(a);
+  }
+
+  window.texturePack = tileLoader.texturePack;
 
   function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
@@ -1136,8 +1322,8 @@ yellow_wool`.split('\n');
       this.game = game;
       this.tileData = []; // 2d array of tile indices
 
-      this.width = 64;
-      this.height = 36;
+      this.width = 128;
+      this.height = 128;
       this.worldTexture = null;
       this.tileset = tileset;
       this.needsWorldTextureUpdate = true;
@@ -1198,6 +1384,10 @@ yellow_wool`.split('\n');
       }
 
       this.worldTexture = new ImageData(outputArr, width, height);
+    }
+
+    markUpdate() {
+      this.needsUpdate = true;
     }
 
     render(renderer) {
@@ -1473,48 +1663,100 @@ yellow_wool`.split('\n');
     }
 
     get x1() {
-      return this.cx - Math.abs(this.width) / 2;
+      return this.cx - this.width / 2;
     }
 
     get x2() {
-      return this.cx + Math.abs(this.width) / 2;
+      return this.cx + this.width / 2;
     }
 
     get y1() {
-      return this.cy - Math.abs(this.height) / 2;
+      return this.cy - this.height / 2;
     }
 
     get y2() {
-      return this.cy + Math.abs(this.height) / 2;
+      return this.cy + this.height / 2;
     }
 
     getX1() {
-      return this.cx - Math.abs(this.width) / 2;
+      return this.cx - this.width / 2;
     }
 
     getX2() {
-      return this.cx + Math.abs(this.width) / 2;
+      return this.cx + this.width / 2;
     }
 
     getY1() {
-      return this.cy - Math.abs(this.height) / 2;
+      return this.cy - this.height / 2;
     }
 
     getY2() {
-      return this.cy + Math.abs(this.height) / 2;
+      return this.cy + this.height / 2;
+    }
+
+    getXBounds() {
+      let delta = this.width / 2;
+      return [this.cx - delta, this.cx + delta];
+    }
+
+    getYBounds() {
+      let delta = this.height / 2;
+      return [this.cy - delta, this.cy + delta];
     } // bottom left in graph-like spaces, top left in canvas-like spaces
 
 
     setX1Y1Corner(x, y) {
-      this.cx = x + Math.abs(this.width) / 2;
-      this.cy = y + Math.abs(this.height) / 2;
+      this.cx = x + this.width / 2;
+      this.cy = y + this.height / 2;
       return this;
     }
 
     setX1Y2Corner(x, y) {
-      this.cx = x + Math.abs(this.width) / 2;
-      this.cy = y - Math.abs(this.height) / 2;
+      this.cx = x + this.width / 2;
+      this.cy = y - this.height / 2;
       return this;
+    }
+
+    copyFrom(bbox) {
+      this.cx = bbox.cx;
+      this.cy = bbox.cy;
+      this.width = bbox.width;
+      this.height = bbox.height;
+    }
+
+    getLargestBoxInsideWithAspectRatio(aspectRatio) {
+      let newWidth = this.width,
+          newHeight = this.height;
+
+      if (newWidth / newHeight > aspectRatio) {
+        // height is constraining
+        newWidth = newHeight * aspectRatio;
+      } else {
+        // width is constraining
+        newHeight = newWidth / aspectRatio;
+      }
+
+      return new BoundingBox(0, 0, newWidth, newHeight).setCenter(this.cx, this.cy);
+    }
+
+    getSmallestBoxOutsideWithAspectRatio(aspectRatio) {
+      let newWidth = this.width,
+          newHeight = this.height;
+
+      if (newWidth / newHeight > aspectRatio) {
+        newHeight = newWidth / aspectRatio;
+      } else {
+        newWidth = newHeight * aspectRatio;
+      }
+
+      return new BoundingBox(0, 0, newWidth, newHeight).setCenter(this.cx, this.cy);
+    }
+
+    moveToBeInside(bbox) {// translate the box so that the distance translated is minimized and the intersection with bbox is minimized
+    }
+
+    resizeToAspectRatio(aspectRatio) {
+      this.copyFrom(this.getLargestBoxInsideWithAspectRatio(aspectRatio));
     }
 
     static getReducedTransform(box1, box2, flipX = false, flipY = false) {
@@ -1555,6 +1797,7 @@ yellow_wool`.split('\n');
       this.game = game;
       this.img = img;
       this.id = generateUUID();
+      this.needsUpdate = true;
     }
 
     render(renderer) {
@@ -1592,18 +1835,16 @@ yellow_wool`.split('\n');
       const vPosition = tileLayerProgram.attribs.vPosition;
       gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
       gl.enableVertexAttribArray(vPosition);
-      let texture; // If we haven't made a texture here before
+      let texture = glManager.getTexture(this.id);
 
-      if (!glManager.hasTexture(this.id)) {
-        texture = glManager.getTexture(this.id);
+      if (this.needsUpdate) {
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.img);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      } else {
-        texture = glManager.getTexture(this.id);
+        this.needsUpdate = false;
       }
 
       gl.activeTexture(gl.TEXTURE0);
@@ -1613,6 +1854,94 @@ yellow_wool`.split('\n');
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
 
+  }
+
+  function create2DArray(width, height, value = 0) {
+    // height first, then width
+    const ret = [];
+
+    for (let i = 0; i < height; ++i) {
+      ret.push(new Array(width).fill(value));
+    }
+
+    return ret;
+  } // Credit to https://stackoverflow.com/a/47593316/13458117
+
+
+  function mulberry32(a) {
+    return function () {
+      var t = a += 0x6D2B79F5;
+      t = Math.imul(t ^ t >>> 15, t | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  function generateCaveWorld(width = 128, height = 128, seed = 0) {
+    const random = mulberry32(seed);
+    const caveBlock = tileset.toCode("andesite");
+    const airBlock = tileset.toCode("air"); // We'll use automata to do this
+
+    const proportion = 0.4,
+          generations = 3,
+          starvationLimit = 10,
+          overpopulationLimit = 25,
+          birthNumber = 11; // Generate a random array
+
+    let arr = create2DArray(width, height);
+    arr.forEach(row => {
+      for (let i = 0; i < row.length; ++i) row[i] = random() < proportion ? caveBlock : airBlock;
+    });
+
+    for (let g = 0; g < generations; ++g) {
+      let newArr = create2DArray(width, height, airBlock);
+
+      for (let i = 0; i < height; ++i) {
+        for (let j = 0; j < width; ++j) {
+          // Count alive neighbors
+          let neighborCount = 0;
+
+          for (let x = -2; x <= 2; ++x) {
+            let xCoord = j + x;
+            if (xCoord < 0 || xCoord >= width) neighborCount++;
+
+            for (let y = -2; y <= 2; ++y) {
+              if (x === 0 && y === 0) continue;
+              let yCoord = i + y;
+              if (yCoord < 0 || yCoord >= height || arr[yCoord][xCoord] === caveBlock) neighborCount++;
+            }
+          }
+
+          let val = arr[i][j];
+
+          if (val === caveBlock) {
+            // already cell, kill if too many or too few
+            if (neighborCount >= starvationLimit && neighborCount <= overpopulationLimit) {
+              newArr[i][j] = caveBlock;
+            }
+          } else {
+            if (neighborCount > birthNumber) {
+              newArr[i][j] = caveBlock;
+            }
+          }
+        }
+      }
+
+      arr = newArr;
+    } // Make the perimeter cave block
+
+
+    for (let i = 0; i < width; ++i) {
+      arr[0][i] = caveBlock;
+      arr[height - 1][i] = caveBlock;
+    }
+
+    for (let j = 0; j < height; ++j) {
+      arr[j][0] = caveBlock;
+      arr[j][width - 1] = caveBlock;
+    }
+
+    return arr;
   }
 
   const aspectRatio = 16 / 9;
@@ -1643,11 +1972,11 @@ yellow_wool`.split('\n');
       this.domElement = domElement;
       this.canvas = canvas;
       this.renderer = new GameRenderer(this);
-      this.viewport = new BoundingBox(0, 0, 64, 36); // What is the bounding box in tile space
+      this.viewport = new BoundingBox(0, 0, 128, 72); // What is the bounding box in tile space
 
       this.world = {
         width: 128,
-        height: 72,
+        height: 128,
         physicalTiles: new TileLayer(this),
         backgroundImage: new BackgroundImage(this, testBackground)
       };
@@ -1685,6 +2014,18 @@ yellow_wool`.split('\n');
 
     getCanvasToClipTransform() {
       return BoundingBox.getReducedTransform(this.getCanvasBBox(), this.viewport, false, false);
+    }
+
+    maintainValidViewport() {
+      if (this.viewport.width > this.world.width) this.viewport.width = this.world.width;
+      if (this.viewport.height > this.world.height) this.viewport.height = this.world.height;
+      this.viewport.resizeToAspectRatio(aspectRatio);
+    }
+
+    zoom(s) {
+      // TODO
+      this.viewport.width /= s;
+      this.viewport.height /= s;
     }
 
     resize() {
@@ -1742,6 +2083,7 @@ yellow_wool`.split('\n');
     gameLoop() {
       if (!this.gameRunning) return;
       this.handleInputs();
+      this.maintainValidViewport();
       const {
         world
       } = this;
@@ -1758,12 +2100,12 @@ yellow_wool`.split('\n');
     const game = new Game();
     document.body.appendChild(game.domElement);
     game.resize();
+    game.world.physicalTiles.tileData = generateCaveWorld(128, 128);
+    game.world.physicalTiles.markUpdate();
     game.start();
     window.game = game;
     window.renderer = game.renderer;
-    window.gl = game.renderer.gl;
-
-    for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i + j + Math.floor(5 * Math.random())) % 60;
+    window.gl = game.renderer.gl; //for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
   };
 
 }());

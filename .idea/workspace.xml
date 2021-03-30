@@ -2,17 +2,40 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/index.js" line="172" />
-    <bookmark url="file://$PROJECT_DIR$/index.js" line="1725" />
-    <bookmark url="file://$PROJECT_DIR$/src/tile_layer.js" line="91" />
+    <bookmark url="file://$PROJECT_DIR$/index.js" line="2066" />
+    <bookmark url="file://$PROJECT_DIR$/src/tile_layer.js" line="95" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c946c9b-aa7f-4070-b140-920b04c3b71e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/rollup.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/hit1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/hit2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/jump1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/jump2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/jump3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/kick1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/kick2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/pick1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/pick2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/portrait.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/static1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/walk1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/walk2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/walk3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/walk4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entity_group.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/panda_entity.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sprite.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/texture_packer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/player_sprite.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/textures/player_sprite.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tileset.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/tileset.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/background_image.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/background_image.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bounding_box.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bounding_box.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game_world.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game_world.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen_cave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen_cave.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_tileset.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_textiles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tile_layer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile_layer.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,10 +49,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/keyboard.js">
+        <entry file="file://$PROJECT_DIR$/src/bounding_box.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="48">
+              <caret line="7" column="22" lean-forward="true" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -37,35 +60,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gen_cave.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="56" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main_tileset.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6480">
-              <caret line="432" column="19" selection-start-line="432" selection-start-column="19" selection-end-line="433" selection-end-column="17" />
+            <state relative-caret-position="30">
+              <caret line="2" column="48" lean-forward="true" selection-start-line="2" selection-start-column="48" selection-end-line="2" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -73,8 +69,50 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/renderer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="3" selection-start-line="33" selection-start-column="3" selection-end-line="33" selection-end-column="3" />
+            <state relative-caret-position="60">
+              <caret line="4" column="22" lean-forward="true" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/entity_group.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/panda_entity.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main_textiles.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="3" column="2837" lean-forward="true" selection-start-line="3" selection-start-column="2837" selection-end-line="3" selection-end-column="2837" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/texture_packer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="527">
+              <caret line="112" column="35" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -82,38 +120,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tile_layer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2070">
-              <caret line="138" column="7" selection-start-line="138" selection-start-column="7" selection-end-line="138" selection-end-column="7" />
+            <state relative-caret-position="-887">
+              <caret line="13" column="22" lean-forward="true" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tileset.js">
+        <entry file="file://$PROJECT_DIR$/src/sprite.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1575">
-              <caret line="106" column="26" selection-start-line="106" selection-start-column="26" selection-end-line="106" selection-end-column="26" />
-              <folding>
-                <element signature="e#1#64#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rollup.config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+            <state relative-caret-position="90">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -149,6 +166,8 @@
       <find>gameWrapper</find>
       <find>tileset</find>
       <find>new Image</find>
+      <find>\n</find>
+      <find>Math.abs(this.width)</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -157,6 +176,8 @@
       <replace>codeToTiles</replace>
       <replace>wrapper</replace>
       <replace>gl.hasTexture</replace>
+      <replace />
+      <replace>this.width</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -174,27 +195,34 @@
         <option value="$PROJECT_DIR$/client/index.js" />
         <option value="$PROJECT_DIR$/src/keyboard.js" />
         <option value="$PROJECT_DIR$/src/asset_loader.js" />
-        <option value="$PROJECT_DIR$/src/game_world.js" />
         <option value="$PROJECT_DIR$/src/gl_helper.js" />
         <option value="$PROJECT_DIR$/src/main_tileset.js" />
-        <option value="$PROJECT_DIR$/src/background_image.js" />
-        <option value="$PROJECT_DIR$/src/renderer.js" />
-        <option value="$PROJECT_DIR$/src/gen_cave.js" />
         <option value="$PROJECT_DIR$/src/vec2.js" />
-        <option value="$PROJECT_DIR$/src/bounding_box.js" />
-        <option value="$PROJECT_DIR$/src/game.js" />
-        <option value="$PROJECT_DIR$/src/tile_layer.js" />
         <option value="$PROJECT_DIR$/src/tileset.js" />
         <option value="$PROJECT_DIR$/rollup.config.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/game.js" />
+        <option value="$PROJECT_DIR$/src/background_image.js" />
+        <option value="$PROJECT_DIR$/src/draw_sprite.js" />
+        <option value="$PROJECT_DIR$/src/bounding_box.js" />
+        <option value="$PROJECT_DIR$/src/sprite.js" />
+        <option value="$PROJECT_DIR$/src/gen_cave.js" />
+        <option value="$PROJECT_DIR$/src/game_world.js" />
+        <option value="$PROJECT_DIR$/src/main_textiles.js" />
+        <option value="$PROJECT_DIR$/src/texture_packer.js" />
+        <option value="$PROJECT_DIR$/src/renderer.js" />
+        <option value="$PROJECT_DIR$/src/entity_renderer.js" />
+        <option value="$PROJECT_DIR$/src/tile_layer.js" />
+        <option value="$PROJECT_DIR$/src/panda_entity.js" />
+        <option value="$PROJECT_DIR$/src/entity_group.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="304" />
-    <option name="y" value="423" />
-    <option name="width" value="2147" />
+    <option name="x" value="328" />
+    <option name="y" value="23" />
+    <option name="width" value="2159" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectView">
@@ -214,6 +242,17 @@
               <item name="capstone-project" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="capstone-project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="capstone-project" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="textures" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="capstone-project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="capstone-project" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -225,20 +264,22 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/tiles" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/textures" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/client/assets" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/textures" />
       <recent name="$PROJECT_DIR$/assets/tiles" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/textures" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/client/assets" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -264,18 +305,18 @@
       <option name="presentableId" value="Default" />
       <updated>1616957864309</updated>
       <workItem from="1616957865548" duration="63044000" />
-      <workItem from="1617084496701" duration="110000" />
+      <workItem from="1617084496701" duration="13314000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63154000" />
+    <option name="totallyTimeSpent" value="76358000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="235" y="23" width="2147" height="1417" extended-state="0" />
+    <frame x="328" y="23" width="2159" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24976481" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24836296" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -332,9 +373,6 @@
     <entry file="file://$PROJECT_DIR$/dist/client/index.js" />
     <entry file="file://$PROJECT_DIR$/game.html" />
     <entry file="file://$PROJECT_DIR$/server/index.js" />
-    <entry file="file://$PROJECT_DIR$/assets/player_sprite.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/canvas.js" />
     <entry file="file://$PROJECT_DIR$/assets/tiles.png">
       <provider selected="true" editor-type-id="images" />
@@ -356,92 +394,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game_world.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/test_background.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/tiles/activator_rail_on.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/background_image.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="60" lean-forward="true" selection-start-line="26" selection-start-column="60" selection-end-line="27" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vec2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1060">
-          <caret line="71" column="4" selection-start-line="71" selection-start-column="4" selection-end-line="71" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bounding_box.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="57" column="3" selection-start-line="57" selection-start-column="3" selection-end-line="57" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="59" selection-start-line="59" selection-end-line="59" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/keyboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gen_cave.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main_tileset.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6480">
-          <caret line="432" column="19" selection-start-line="432" selection-start-column="19" selection-end-line="433" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="3" selection-start-line="33" selection-start-column="3" selection-end-line="33" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tile_layer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2070">
-          <caret line="138" column="7" selection-start-line="138" selection-start-column="7" selection-end-line="138" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tileset.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="106" column="26" selection-start-line="106" selection-start-column="26" selection-end-line="106" selection-end-column="26" />
-          <folding>
-            <element signature="e#1#64#0" expanded="true" />
-          </folding>
+          <caret line="6" column="56" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -452,24 +414,137 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
+    <entry file="file://$PROJECT_DIR$/src/keyboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vec2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="71" column="4" selection-start-line="71" selection-start-column="4" selection-end-line="71" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-451">
+          <caret line="40" column="18" lean-forward="true" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/background_image.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        <state relative-caret-position="30">
+          <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
+    <entry file="file://$PROJECT_DIR$/src/game_world.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="26" lean-forward="true" selection-end-column="9310" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="2087" column="13" lean-forward="true" selection-start-line="2087" selection-start-column="13" selection-end-line="2087" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tileset.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-968">
+          <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+          <folding>
+            <element signature="e#1#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/textures/player_sprite.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sprite.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" column="56" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bounding_box.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="7" column="22" lean-forward="true" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="22" lean-forward="true" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gen_cave.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="48" lean-forward="true" selection-start-line="2" selection-start-column="48" selection-end-line="2" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tile_layer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-887">
+          <caret line="13" column="22" lean-forward="true" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/texture_packer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="112" column="35" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main_textiles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="2837" lean-forward="true" selection-start-line="3" selection-start-column="2837" selection-end-line="3" selection-end-column="2837" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/panda_entity.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entity_group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
         </state>
       </provider>
     </entry>

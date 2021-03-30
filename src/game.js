@@ -5,6 +5,7 @@ import {BoundingBox} from "./bounding_box"
 import {assetTracker} from "./asset_loader"
 import {BackgroundImage} from "./background_image"
 import {Vec2} from "./vec2"
+import {generateCaveWorld} from "./gen_cave"
 
 const aspectRatio = 16 / 9
 const maxGameWidth = 1920
@@ -34,10 +35,10 @@ class Game {
     this.canvas = canvas
     this.renderer = new GameRenderer(this)
 
-    this.viewport = new BoundingBox(0, 0, 64, 36) // What is the bounding box in tile space
+    this.viewport = new BoundingBox(0, 0, 128, 72) // What is the bounding box in tile space
     this.world = {
       width: 128,
-      height: 72,
+      height: 128,
       physicalTiles: new TileLayer(this),
       backgroundImage: new BackgroundImage(this, testBackground)
     }
@@ -76,6 +77,18 @@ class Game {
 
   getCanvasToClipTransform () {
     return BoundingBox.getReducedTransform(this.getCanvasBBox(), this.viewport, false, false)
+  }
+
+  maintainValidViewport () {
+    if (this.viewport.width > this.world.width) this.viewport.width = this.world.width
+    if (this.viewport.height > this.world.height) this.viewport.height = this.world.height
+    this.viewport.resizeToAspectRatio(aspectRatio)
+  }
+
+
+  zoom (s) { // TODO
+    this.viewport.width /= s
+    this.viewport.height /= s
   }
 
   resize () { // Resize to fill the DOM
@@ -134,6 +147,8 @@ class Game {
 
     this.handleInputs()
 
+    this.maintainValidViewport()
+
     const { world } = this
     this.renderer.render([ world.backgroundImage, world.physicalTiles ])
 
@@ -147,11 +162,14 @@ assetTracker.onfinished = () => {
   document.body.appendChild(game.domElement)
   game.resize()
 
+  game.world.physicalTiles.tileData = generateCaveWorld(128, 128)
+  game.world.physicalTiles.markUpdate()
+
   game.start()
 
   window.game = game
   window.renderer = game.renderer
   window.gl = game.renderer.gl
 
-  for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
+  //for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
 }

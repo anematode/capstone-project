@@ -4,7 +4,9 @@ export class BackgroundImage {
   constructor (game, img) {
     this.game = game
     this.img = img
+
     this.id = generateUUID()
+    this.needsUpdate = true
   }
 
   render (renderer) {
@@ -41,12 +43,9 @@ export class BackgroundImage {
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(vPosition)
 
-    let texture
+    let texture = glManager.getTexture(this.id)
 
-    // If we haven't made a texture here before
-    if (!glManager.hasTexture(this.id)) {
-      texture = glManager.getTexture(this.id)
-
+    if (this.needsUpdate) {
       gl.bindTexture(gl.TEXTURE_2D, texture)
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.img)
 
@@ -54,8 +53,8 @@ export class BackgroundImage {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    } else {
-      texture = glManager.getTexture(this.id)
+
+      this.needsUpdate = false
     }
 
     gl.activeTexture(gl.TEXTURE0)

@@ -1,4 +1,4 @@
-import { tileset } from "./main_tileset"
+import { tileset } from "./main_textiles"
 
 export function generateUUID () {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -9,15 +9,15 @@ export function generateUUID () {
   })
 }
 
-// A layer... of tiles... to render. Yep.
+// A layer... of tiles. Yep.
 export class TileLayer {
   constructor (game) {
     this.game = game
 
     this.tileData = [] // 2d array of tile indices
 
-    this.width = 64
-    this.height = 36
+    this.width = 128
+    this.height = 128
 
     this.worldTexture = null
     this.tileset = tileset
@@ -79,6 +79,10 @@ export class TileLayer {
     }
 
     this.worldTexture = new ImageData(outputArr, width, height);
+  }
+
+  markUpdate () {
+    this.needsUpdate = true
   }
 
   render (renderer) {

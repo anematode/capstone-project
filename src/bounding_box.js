@@ -26,48 +26,95 @@ export class BoundingBox {
   }
 
   get x1 () {
-    return this.cx - Math.abs(this.width) / 2
+    return this.cx - this.width / 2
   }
 
   get x2 () {
-    return this.cx + Math.abs(this.width) / 2
+    return this.cx + this.width / 2
   }
 
   get y1 () {
-    return this.cy - Math.abs(this.height) / 2
+    return this.cy - this.height / 2
   }
 
   get y2 () {
-    return this.cy + Math.abs(this.height) / 2
+    return this.cy + this.height / 2
   }
 
   getX1 () {
-    return this.cx - Math.abs(this.width) / 2
+    return this.cx - this.width / 2
   }
 
   getX2 () {
-    return this.cx + Math.abs(this.width) / 2
+    return this.cx + this.width / 2
   }
 
   getY1 () {
-    return this.cy - Math.abs(this.height) / 2
+    return this.cy - this.height / 2
   }
 
   getY2 () {
-    return this.cy + Math.abs(this.height) / 2
+    return this.cy + this.height / 2
+  }
+
+  getXBounds () {
+    let delta = this.width / 2
+    return [ this.cx - delta, this.cx + delta ]
+  }
+
+  getYBounds () {
+    let delta = this.height / 2
+    return [ this.cy - delta, this.cy + delta ]
   }
 
   // bottom left in graph-like spaces, top left in canvas-like spaces
   setX1Y1Corner (x, y) {
-    this.cx = x + Math.abs(this.width) / 2
-    this.cy = y + Math.abs(this.height) / 2
+    this.cx = x + this.width / 2
+    this.cy = y + this.height / 2
     return this
   }
 
   setX1Y2Corner (x, y) {
-    this.cx = x + Math.abs(this.width) / 2
-    this.cy = y - Math.abs(this.height) / 2
+    this.cx = x + this.width / 2
+    this.cy = y - this.height / 2
     return this
+  }
+
+  copyFrom (bbox) {
+    this.cx = bbox.cx
+    this.cy = bbox.cy
+    this.width = bbox.width
+    this.height = bbox.height
+  }
+
+  getLargestBoxInsideWithAspectRatio (aspectRatio) {
+    let newWidth = this.width, newHeight = this.height
+    if (newWidth / newHeight > aspectRatio) { // height is constraining
+      newWidth = newHeight * aspectRatio
+    } else { // width is constraining
+      newHeight = newWidth / aspectRatio
+    }
+
+    return new BoundingBox(0, 0, newWidth, newHeight).setCenter(this.cx, this.cy)
+  }
+
+  getSmallestBoxOutsideWithAspectRatio (aspectRatio) {
+    let newWidth = this.width, newHeight = this.height
+    if (newWidth / newHeight > aspectRatio) {
+      newHeight = newWidth / aspectRatio
+    } else {
+      newWidth = newHeight * aspectRatio
+    }
+
+    return new BoundingBox(0, 0, newWidth, newHeight).setCenter(this.cx, this.cy)
+  }
+
+  moveToBeInside (bbox) { // translate the box so that the distance translated is minimized and the intersection with bbox is minimized
+
+  }
+
+  resizeToAspectRatio (aspectRatio) {
+    this.copyFrom(this.getLargestBoxInsideWithAspectRatio(aspectRatio))
   }
 
   static getReducedTransform (box1, box2, flipX=false, flipY=false) {
@@ -97,4 +144,8 @@ export class BoundingBox {
 
     return {x_m, x_b, y_m, y_b}
   }
+}
+
+function boundsOverlap(bounds1, bounds2) {
+
 }
