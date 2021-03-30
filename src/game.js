@@ -6,6 +6,7 @@ import {assetTracker} from "./asset_loader"
 import {BackgroundImage} from "./background_image"
 import {Vec2} from "./vec2"
 import {generateCaveWorld} from "./gen_cave"
+import {EntityGroup} from "./entity_group"
 
 const aspectRatio = 16 / 9
 const maxGameWidth = 1920
@@ -40,7 +41,8 @@ class Game {
       width: 128,
       height: 128,
       physicalTiles: new TileLayer(this),
-      backgroundImage: new BackgroundImage(this, testBackground)
+      backgroundImage: new BackgroundImage(this, testBackground),
+      entities: new EntityGroup(this)
     }
 
     this.keyboard = new Keyboard()
@@ -84,7 +86,6 @@ class Game {
     if (this.viewport.height > this.world.height) this.viewport.height = this.world.height
     this.viewport.resizeToAspectRatio(aspectRatio)
   }
-
 
   zoom (s) { // TODO
     this.viewport.width /= s

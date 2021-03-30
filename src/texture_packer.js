@@ -2,6 +2,7 @@
 // A tileset has 16x16 tiles, while a texture packer includes textures of any (reasonable) size.
 
 import {AssetLoadTracker, assetTracker} from "./asset_loader"
+import {generateUUID} from "./tile_layer"
 
 // Get an array of bounding boxes corresponding to each texture
 function getRectanglePacking (textureList) {
@@ -176,6 +177,7 @@ export class TexturePacker {
 class TexturePack {
   constructor () {
     this.isReady = false
+    this.id = generateUUID()
   }
 
   init (texture, textureLocations, textureImages) {
@@ -184,5 +186,36 @@ class TexturePack {
     this.texture = texture
     this.textureLocations = textureLocations
     this.textureImages = textureImages
+  }
+
+  getTextureObject (renderer) {
+    const { gl, glManager } = renderer
+
+    if (glManager.hasTexture(this.id)) return glManager.getTexture(this.id)
+
+    const texture = glManager.getTexture(this.id)
+
+    gl.bindTexture(gl.TEXTURE_2D, texture)
+    // Load in our textures
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.texture)
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+    return texture
+  }
+
+  get width () {
+    return
+  }
+
+  getLocationOf (key) {
+    return this.textureImages[key]
+  }
+
+  getNullTexture () { // the null texture maps everything to (0.5, 0.5) at which there is a single transculent pixel
+    return { w: 0, h: 0, x: 0.5, y: 0.5 }
   }
 }

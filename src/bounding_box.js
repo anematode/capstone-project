@@ -67,6 +67,11 @@ export class BoundingBox {
     return [ this.cy - delta, this.cy + delta ]
   }
 
+  setBottomMidpoint (x, y) {
+    this.cx = x
+    this.cy = y - this.height / 2
+  }
+
   // bottom left in graph-like spaces, top left in canvas-like spaces
   setX1Y1Corner (x, y) {
     this.cx = x + this.width / 2
@@ -119,7 +124,7 @@ export class BoundingBox {
 
   static getReducedTransform (box1, box2, flipX=false, flipY=false) {
     let x_m = 1 / box1.width
-    let x_b = - box1.getX1() / box1.width
+    let x_b = - box1.x1 / box1.width
 
     if (flipX) {
       x_m *= -1
@@ -128,10 +133,10 @@ export class BoundingBox {
 
     x_m *= box2.width
     x_b *= box2.width
-    x_b += box2.getX1()
+    x_b += box2.x1
 
     let y_m = 1 / box1.height
-    let y_b = - box1.getY1() / box1.height
+    let y_b = - box1.y1 / box1.height
 
     if (flipY) {
       y_m *= -1
@@ -140,7 +145,7 @@ export class BoundingBox {
 
     y_m *= box2.height
     y_b *= box2.height
-    y_b += box2.getY1()
+    y_b += box2.y1
 
     return {x_m, x_b, y_m, y_b}
   }
