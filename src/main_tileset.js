@@ -577,11 +577,11 @@ yellow_stained_glass_pane_top
 yellow_terracotta
 yellow_wool`.split('\n')
 
-export const mainTileset = new TilesetLoader()
+const loader = new TilesetLoader()
 
-for (const a of filenames.slice(0, 100)) {
+for (const a of filenames.slice(0, 150)) {
   if (a)
-    mainTileset.addTile(a)
+    loader.addTile(a)
 }
 
-window.mainTileset = mainTileset
+export const tileset = window.tileset = loader.tileset

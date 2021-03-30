@@ -67,6 +67,9 @@ export class Vec2 {
   }
 
   unit() {
+    if (this.x === 0 && this.y === 0)
+      return this.clone()
+    
     return this.clone().divide(this.length())
   }
 

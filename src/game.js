@@ -4,6 +4,7 @@ import {TileLayer} from "./tile_layer"
 import {BoundingBox} from "./bounding_box"
 import {assetTracker} from "./asset_loader"
 import {BackgroundImage} from "./background_image"
+import {Vec2} from "./vec2"
 
 const aspectRatio = 16 / 9
 const maxGameWidth = 1920
@@ -33,11 +34,12 @@ class Game {
     this.canvas = canvas
     this.renderer = new GameRenderer(this)
 
-    this.viewport = new BoundingBox(0, 0, 32, 18) // What is the bounding box in tile space
+    this.viewport = new BoundingBox(0, 0, 64, 36) // What is the bounding box in tile space
     this.world = {
-      physicalTiles: new TileLayer(),
-      backgroundImage: new BackgroundImage(testBackground),
-
+      width: 128,
+      height: 72,
+      physicalTiles: new TileLayer(this),
+      backgroundImage: new BackgroundImage(this, testBackground)
     }
 
     this.keyboard = new Keyboard()
@@ -48,7 +50,8 @@ class Game {
 
   start () {
     this.gameRunning = true
-    this.gameLoop()
+
+    requestAnimationFrame(() => this.gameLoop())
   }
 
   stop () {
@@ -115,10 +118,23 @@ class Game {
     this.renderer.resize()
   }
 
+  handleInputs() {
+    const { keyboard, viewport } = this
+    const movementSpeed = 0.15
+
+    const moveDir = new Vec2(keyboard.isKeyPressed("ArrowRight") - keyboard.isKeyPressed("ArrowLeft"),
+      keyboard.isKeyPressed("ArrowUp") - keyboard.isKeyPressed("ArrowDown")).unit().scale(movementSpeed)
+
+    viewport.cx += moveDir.x
+    viewport.cy += moveDir.y
+  }
+
   gameLoop () {
     if (!this.gameRunning) return
 
-    const {world} = this
+    this.handleInputs()
+
+    const { world } = this
     this.renderer.render([ world.backgroundImage, world.physicalTiles ])
 
     requestAnimationFrame(() => { this.gameLoop() })
@@ -135,6 +151,7 @@ assetTracker.onfinished = () => {
 
   window.game = game
   window.renderer = game.renderer
-
   window.gl = game.renderer.gl
+
+  for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
 }

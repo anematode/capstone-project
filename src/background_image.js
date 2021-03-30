@@ -1,7 +1,8 @@
 import {generateUUID} from "./tile_layer"
 
 export class BackgroundImage {
-  constructor (img) {
+  constructor (game, img) {
+    this.game = game
     this.img = img
     this.id = generateUUID()
   }
@@ -24,6 +25,7 @@ export class BackgroundImage {
         
         void main() {
           gl_FragColor = texture2D(uSampler, vTextureCoord);
+          gl_FragColor.rgb *= gl_FragColor.a;
         }`, ["vPosition"], ["uSampler"])
 
     const buf = glManager.getBuffer(this.id)

@@ -20,7 +20,7 @@ export class TilesetLoader {
     this.tileSize = tileSize
     this.tileImages = {}
 
-    this.tileset = null
+    this.tileset = new Tileset()
     this.onfinished = null
   }
 
@@ -57,8 +57,8 @@ export class TilesetLoader {
     canv.height = textureHeight
     canv.width = textureWidth
 
-    const tileIndices = {}
-    const indexToTiles = [ null ]
+    const tileCodes = {}
+    const codeToTiles = [ null ]
 
     let i = 0
     for (const [tileName, tileImage] of Object.entries(tileImages)) {
@@ -66,32 +66,38 @@ export class TilesetLoader {
         continue
 
       ++i
-      tileIndices[tileName] = i
-      indexToTiles.push(tileName)
+      tileCodes[tileName] = i
+      codeToTiles.push(tileName)
 
       ctx.drawImage(tileImage, 0, 0, tileSize, tileSize, tileSize * (i % textureWidthInTiles), tileSize * Math.floor(i / textureWidthInTiles), tileSize, tileSize)
     }
 
-    this.tileset = new Tileset(tileSize, tileImages, canv, tileIndices, indexToTiles, indexToTiles.length - 1, textureWidthInTiles, textureHeightInTiles)
+    // So that it's happily passed by reference
+    this.tileset.init(tileSize, tileImages, canv, tileCodes, codeToTiles, codeToTiles.length - 1, textureWidthInTiles, textureHeightInTiles)
   }
 }
 
 export class Tileset {
-  constructor (tileSize, tileImages, texture, tileIndices, indexToTiles, tileCount, widthInTiles, heightInTiles) {
+  constructor () {
+    this.isReady = false
+    this.id = generateUUID()
+  }
+
+  init (tileSize, tileImages, texture, tileCodes, codeToTiles, tileCount, widthInTiles, heightInTiles) {
     this.tileSize = tileSize
     this.tileImages = tileImages
     this.texture = texture
-    this.tileIndices = tileIndices
-    this.indexToTiles = indexToTiles
+    this.tileCodes = tileCodes
+    this.codeToTiles = codeToTiles
     this.tileCount = tileCount
     this.widthInTiles = widthInTiles
     this.heightInTiles = heightInTiles
 
-    this.id = generateUUID()
+    this.isReady = true
   }
 
   getTextureObject (renderer) {
-    const {gl, glManager} = renderer
+    const { gl, glManager } = renderer
 
     if (glManager.hasTexture(this.id)) return glManager.getTexture(this.id)
 
@@ -103,10 +109,43 @@ export class Tileset {
 
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 
     return texture
+  }
+
+  indexOf (tilename) {
+    return tilename === "air" ? 0 : this.tileCodes[tilename] ?? -1
+  }
+
+  tilenameOf (codeOrTile) {
+    return codeOrTile === 0 ? "air" : ((codeOrTile < 0 || codeOrTile >= this.tileCount) ? null : this.codeToTiles[codeOrTile])
+  }
+
+  toCode (codeOrTile) {
+    if (typeof codeOrTile === "number") {
+      return codeOrTile
+    } else {
+      return this.indexOf(codeOrTile)
+    }
+  }
+
+  toTile (codeOrTile) {
+    if (typeof codeOrTile === "string") {
+      return codeOrTile
+    } else {
+      return this.tilenameOf(codeOrTile)
+    }
+  }
+
+  // Pixel height
+  get height () {
+    return this.heightInTiles * this.tileSize
+  }
+
+  get width () {
+    return this.widthInTiles * this.tileSize
   }
 
   getTileCorner (index) { // get the pixel location of a corner of a tile, in PIXELS.
@@ -117,4 +156,3 @@ export class Tileset {
 
   }
 }
-

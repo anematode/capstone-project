@@ -1,9 +1,4 @@
 import { GLResourceManager } from "./gl_helper"
-import { TilesetLoader } from "./tileset"
-import { mainTileset } from "./main_tileset"
-
-
-
 
 // I'm scared.
 export class GameRenderer {
@@ -17,11 +12,15 @@ export class GameRenderer {
     this.canvasCtx = canvas.getContext("2d")
 
     this.glCanvas = document.createElement("canvas")
-    this.gl = this.glCanvas.getContext("webgl", {
-      preserveDrawingBuffer: true
+    let gl = this.gl = this.glCanvas.getContext("webgl", {
+      preserveDrawingBuffer: true,
+      premultipliedAlpha: false
     })
 
-    if (!this.gl) alert("Browser lacks WebGL support.")
+    if (!gl) alert("Browser lacks WebGL support.")
+
+    gl.enable(gl.BLEND)
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
     this.glManager = new GLResourceManager(this.gl)
 
@@ -90,6 +89,7 @@ export class GameRenderer {
   }
 
   render (instructions=[]) {
+    this.clearCanvas()
     this.clearGLCanvas()
 
     for (const elem of instructions) {

@@ -3,599 +3,20 @@
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/index.js" line="134" />
     <bookmark url="file://$PROJECT_DIR$/index.js" line="793" />
-    <bookmark url="file://$PROJECT_DIR$/src/tile_layer.js" line="78" />
+    <bookmark url="file://$PROJECT_DIR$/src/tile_layer.js" line="91" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c946c9b-aa7f-4070-b140-920b04c3b71e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/tiles/acacia_door_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/acacia_door_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/acacia_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/acacia_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/acacia_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/acacia_planks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/acacia_sapling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/acacia_trapdoor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/activator_rail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/activator_rail_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/allium.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/andesite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/anvil.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/anvil_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/attached_melon_stem.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/attached_pumpkin_stem.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/azure_bluet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bamboo_large_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bamboo_singleleaf.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bamboo_small_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bamboo_stage0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bamboo_stalk.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/beacon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bedrock.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/beetroots_stage0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/beetroots_stage1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/beetroots_stage2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/beetroots_stage3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/birch_door_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/birch_door_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/birch_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/birch_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/birch_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/birch_planks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/birch_sapling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/birch_trapdoor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/black_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/black_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/black_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/black_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/black_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/black_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/black_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/black_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_ice.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_orchid.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/blue_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bone_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bone_block_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bookshelf.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brain_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brain_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brain_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brewing_stand.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brewing_stand_base.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_mushroom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_mushroom_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/brown_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bubble_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bubble_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/bubble_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cactus_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cactus_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cactus_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cake_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cake_inner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cake_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cake_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/carrots_stage0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/carrots_stage1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/carrots_stage2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/carrots_stage3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/carved_pumpkin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cauldron_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cauldron_inner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cauldron_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cauldron_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chain_command_block_back.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chain_command_block_back.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chain_command_block_conditional.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chain_command_block_conditional.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chain_command_block_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chain_command_block_front.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chain_command_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chain_command_block_side.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chipped_anvil_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chiseled_quartz_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chiseled_quartz_block_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chiseled_red_sandstone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chiseled_sandstone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chiseled_stone_bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chorus_flower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chorus_flower_dead.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/chorus_plant.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/clay.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/coal_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/coal_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/coarse_dirt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cobblestone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cobweb.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cocoa_stage0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cocoa_stage1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cocoa_stage2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/command_block_back.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/command_block_back.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/command_block_conditional.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/command_block_conditional.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/command_block_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/command_block_front.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/command_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/command_block_side.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/comparator.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/comparator_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/conduit.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cornflower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cracked_stone_bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/crafting_table_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/crafting_table_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/crafting_table_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/crying_obsidian.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cut_red_sandstone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cut_sandstone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cyan_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cyan_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cyan_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cyan_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cyan_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cyan_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cyan_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/cyan_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/damaged_anvil_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dandelion.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_oak_door_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_oak_door_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_oak_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_oak_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_oak_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_oak_planks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_oak_sapling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_oak_trapdoor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dark_prismarine.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/daylight_detector_inverted_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/daylight_detector_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/daylight_detector_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_brain_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_brain_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_brain_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_bubble_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_bubble_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_bubble_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_bush.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_fire_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_fire_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_fire_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_horn_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_horn_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_horn_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_tube_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_tube_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dead_tube_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/debug.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/debug2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/destroy_stage_9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/detector_rail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/detector_rail_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/diamond_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/diamond_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/diorite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dirt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dispenser_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dispenser_front_vertical.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dragon_egg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dried_kelp_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dried_kelp_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dried_kelp_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dropper_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/dropper_front_vertical.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/emerald_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/emerald_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/enchanting_table_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/enchanting_table_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/enchanting_table_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/end_portal_frame_eye.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/end_portal_frame_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/end_portal_frame_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/end_rod.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/end_stone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/end_stone_bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/farmland.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/farmland_moist.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/fern.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/fire_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/fire_0.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/fire_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/fire_1.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/fire_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/fire_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/fire_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/flower_pot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/frosted_ice_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/frosted_ice_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/frosted_ice_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/frosted_ice_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/furnace_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/furnace_front_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/furnace_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/furnace_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/glowstone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gold_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gold_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/granite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/grass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/grass_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/grass_block_side_overlay.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/grass_block_snow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/grass_block_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/grass_path_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/grass_path_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gravel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gray_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gray_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gray_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gray_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gray_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gray_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gray_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/gray_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/green_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/green_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/green_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/green_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/green_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/green_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/green_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/green_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/hay_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/hay_block_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/hopper_inside.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/hopper_outside.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/hopper_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/horn_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/horn_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/horn_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/ice.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/iron_bars.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/iron_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/iron_door_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/iron_door_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/iron_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/iron_trapdoor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/item_frame.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jack_o_lantern.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jukebox_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jukebox_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jungle_door_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jungle_door_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jungle_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jungle_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jungle_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jungle_planks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jungle_sapling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/jungle_trapdoor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/kelp.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/kelp.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/kelp_plant.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/kelp_plant.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/ladder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lapis_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lapis_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/large_fern_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/large_fern_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lava_flow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lava_flow.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lava_still.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lava_still.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lever.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_blue_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_blue_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_blue_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_blue_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_blue_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_blue_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_blue_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_blue_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_gray_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_gray_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_gray_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_gray_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_gray_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_gray_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_gray_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/light_gray_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lilac_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lilac_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lily_of_the_valley.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lily_pad.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lime_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lime_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lime_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lime_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lime_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lime_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lime_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/lime_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magenta_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magenta_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magenta_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magenta_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magenta_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magenta_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magenta_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magenta_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magma.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/magma.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/melon_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/melon_stem.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/melon_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/mossy_cobblestone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/mossy_stone_bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/mushroom_block_inside.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/mushroom_stem.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/mycelium_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/mycelium_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/nether_bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/nether_portal.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/nether_portal.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/nether_quartz_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/nether_wart_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/nether_wart_stage0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/nether_wart_stage1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/nether_wart_stage2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/netherrack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/note_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oak_door_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oak_door_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oak_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oak_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oak_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oak_planks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oak_sapling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oak_trapdoor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/observer_back.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/observer_back_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/observer_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/observer_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/observer_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/obsidian.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_tulip.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/orange_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/oxeye_daisy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/packed_ice.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/peony_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/peony_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_tulip.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pink_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/piston_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/piston_inner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/piston_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/piston_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/piston_top_sticky.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/podzol_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/podzol_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/polished_andesite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/polished_diorite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/polished_granite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/poppy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/potatoes_stage0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/potatoes_stage1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/potatoes_stage2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/potatoes_stage3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/powered_rail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/powered_rail_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/prismarine.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/prismarine.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/prismarine_bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pumpkin_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pumpkin_stem.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/pumpkin_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purple_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purple_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purple_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purple_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purple_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purple_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purple_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purple_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purpur_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purpur_pillar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/purpur_pillar_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/quartz_block_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/quartz_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/quartz_block_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/quartz_pillar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/quartz_pillar_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/rail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/rail_corner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_mushroom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_mushroom_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_nether_bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_sand.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_sandstone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_sandstone_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_sandstone_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_tulip.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/red_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_dust_dot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_dust_line0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_dust_line1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_dust_overlay.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_lamp.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_lamp_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_torch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/redstone_torch_off.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeater.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeater_on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeating_command_block_back.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeating_command_block_back.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeating_command_block_conditional.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeating_command_block_conditional.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeating_command_block_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeating_command_block_front.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeating_command_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/repeating_command_block_side.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/rose_bush_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/rose_bush_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sand.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sandstone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sandstone_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sandstone_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sea_lantern.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sea_lantern.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sea_pickle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/seagrass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/seagrass.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/slime_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/smooth_stone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/smooth_stone_slab_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/snow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/soul_sand.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spawner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sponge.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spruce_door_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spruce_door_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spruce_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spruce_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spruce_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spruce_planks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spruce_sapling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/spruce_trapdoor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stone_bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_acacia_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_acacia_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_birch_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_birch_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_dark_oak_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_dark_oak_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_jungle_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_jungle_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_oak_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_oak_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_spruce_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/stripped_spruce_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/structure_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/structure_block_corner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/structure_block_data.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/structure_block_load.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/structure_block_save.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sugar_cane.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sunflower_back.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sunflower_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sunflower_front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/sunflower_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tall_grass_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tall_grass_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tall_seagrass_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tall_seagrass_bottom.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tall_seagrass_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tall_seagrass_top.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tnt_bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tnt_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tnt_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/torch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tripwire.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tripwire_hook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tube_coral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tube_coral_block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/tube_coral_fan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/turtle_egg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/turtle_egg_slightly_cracked.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/turtle_egg_very_cracked.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/vine.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/water_flow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/water_flow.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/water_overlay.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/water_still.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/water_still.png.mcmeta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wet_sponge.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wheat_stage0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wheat_stage1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wheat_stage2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wheat_stage3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wheat_stage4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wheat_stage5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wheat_stage6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wheat_stage7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_tulip.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/white_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/wither_rose.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/yellow_concrete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/yellow_concrete_powder.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/yellow_glazed_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/yellow_shulker_box.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/yellow_stained_glass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/yellow_stained_glass_pane_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/yellow_terracotta.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/tiles/yellow_wool.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/asset_loader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/background_image.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bounding_box.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game_world.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/gl_helper.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/keyboard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main_tileset.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/renderer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tile_layer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tileset.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vec2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gen_cave.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/background_image.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/background_image.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_tileset.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_tileset.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tile_layer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile_layer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tileset.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/tileset.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vec2.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/vec2.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -611,8 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="463">
+              <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -620,14 +41,74 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/bounding_box.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="855">
+              <caret line="57" column="3" selection-start-line="57" selection-start-column="3" selection-end-line="57" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/vec2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1060">
+              <caret line="71" column="4" selection-start-line="71" selection-start-column="4" selection-end-line="71" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/keyboard.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gen_cave.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="55" lean-forward="true" selection-start-line="21" selection-start-column="55" selection-end-line="21" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main_tileset.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-327">
+              <caret line="432" column="19" lean-forward="true" selection-start-line="432" selection-start-column="19" selection-end-line="433" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="33" column="3" lean-forward="true" selection-start-line="33" selection-start-column="3" selection-end-line="33" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tile_layer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="591">
-              <caret line="88" column="5" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
-              <folding>
-                <element signature="e#0#45#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-160">
+              <caret line="87" column="80" lean-forward="true" selection-start-line="87" selection-start-column="80" selection-end-line="87" selection-end-column="80" />
             </state>
           </provider>
         </entry>
@@ -635,20 +116,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tileset.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="604">
-              <caret line="79" column="114" lean-forward="true" selection-start-line="79" selection-start-column="114" selection-end-line="79" selection-end-column="114" />
+            <state relative-caret-position="292">
+              <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
               <folding>
                 <element signature="e#1#64#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/background_image.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="13" lean-forward="true" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -679,13 +151,17 @@
       <find>renderer.hasTexture</find>
       <find>.y1</find>
       <find>compileProgram</find>
-      <find>gameWrapper</find>
       <find>renderWorldTo</find>
+      <find>indexToTiles</find>
+      <find>gameWrapper</find>
+      <find>tileset</find>
+      <find>new Image</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>vPosition</replace>
       <replace>.getY1()</replace>
+      <replace>codeToTiles</replace>
       <replace>wrapper</replace>
       <replace>gl.hasTexture</replace>
     </replaceStrings>
@@ -705,23 +181,24 @@
         <option value="$PROJECT_DIR$/server/index.js" />
         <option value="$PROJECT_DIR$/client/index.js" />
         <option value="$PROJECT_DIR$/src/keyboard.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/asset_loader.js" />
         <option value="$PROJECT_DIR$/src/game_world.js" />
         <option value="$PROJECT_DIR$/src/gl_helper.js" />
         <option value="$PROJECT_DIR$/src/main_tileset.js" />
-        <option value="$PROJECT_DIR$/src/renderer.js" />
-        <option value="$PROJECT_DIR$/src/bounding_box.js" />
-        <option value="$PROJECT_DIR$/src/vec2.js" />
-        <option value="$PROJECT_DIR$/src/tileset.js" />
-        <option value="$PROJECT_DIR$/src/game.js" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/background_image.js" />
+        <option value="$PROJECT_DIR$/src/renderer.js" />
+        <option value="$PROJECT_DIR$/src/gen_cave.js" />
+        <option value="$PROJECT_DIR$/src/vec2.js" />
+        <option value="$PROJECT_DIR$/src/bounding_box.js" />
+        <option value="$PROJECT_DIR$/src/game.js" />
         <option value="$PROJECT_DIR$/src/tile_layer.js" />
+        <option value="$PROJECT_DIR$/src/tileset.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="517" />
+    <option name="x" value="387" />
     <option name="y" value="23" />
     <option name="width" value="2147" />
     <option name="height" value="1417" />
@@ -797,15 +274,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1616957864309</updated>
-      <workItem from="1616957865548" duration="47971000" />
+      <workItem from="1616957865548" duration="61800000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47971000" />
+    <option name="totallyTimeSpent" value="61800000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="517" y="23" width="2147" height="1417" extended-state="0" />
+    <frame x="387" y="23" width="2147" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
@@ -971,13 +448,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/keyboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/tiles.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -988,13 +458,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="46" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -1026,71 +489,89 @@
     <entry file="file://$PROJECT_DIR$/assets/test_background.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main_tileset.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1117">
-          <caret line="581" column="37" selection-start-line="581" selection-start-column="37" selection-end-line="581" selection-end-column="37" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/assets/tiles/activator_rail_on.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer.js">
+    <entry file="file://$PROJECT_DIR$/src/background_image.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2">
-          <caret line="20" column="33" lean-forward="true" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="390">
+          <caret line="26" column="60" lean-forward="true" selection-start-line="26" selection-start-column="60" selection-end-line="27" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/vec2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
+        <state relative-caret-position="1060">
+          <caret line="71" column="4" selection-start-line="71" selection-start-column="4" selection-end-line="71" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bounding_box.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-200">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="855">
+          <caret line="57" column="3" selection-start-line="57" selection-start-column="3" selection-end-line="57" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="463">
+          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/keyboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="3" lean-forward="true" selection-start-line="33" selection-start-column="3" selection-end-line="33" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="55" lean-forward="true" selection-start-line="21" selection-start-column="55" selection-end-line="21" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gen_cave.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main_tileset.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-327">
+          <caret line="432" column="19" lean-forward="true" selection-start-line="432" selection-start-column="19" selection-end-line="433" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/tileset.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="79" column="114" lean-forward="true" selection-start-line="79" selection-start-column="114" selection-end-line="79" selection-end-column="114" />
+        <state relative-caret-position="292">
+          <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
           <folding>
             <element signature="e#1#64#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/background_image.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="13" lean-forward="true" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/tile_layer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="591">
-          <caret line="88" column="5" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-160">
+          <caret line="87" column="80" lean-forward="true" selection-start-line="87" selection-start-column="80" selection-end-line="87" selection-end-column="80" />
         </state>
       </provider>
     </entry>
