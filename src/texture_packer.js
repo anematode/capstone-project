@@ -208,11 +208,15 @@ class TexturePack {
   }
 
   get width () {
-    return
+    return this.texture.width
+  }
+
+  get height () {
+    return this.texture.height
   }
 
   getLocationOf (key) {
-    return this.textureImages[key]
+    return this.textureLocations[key]
   }
 
   getNullTexture () { // the null texture maps everything to (0.5, 0.5) at which there is a single transculent pixel

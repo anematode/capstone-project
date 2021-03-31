@@ -1,6 +1,6 @@
 import {generateUUID} from "./tile_layer"
 import {texturePack} from "./main_textiles"
-
+import {BoundingBox} from "./bounding_box"
 
 export class EntityGroup {
   constructor (game) {
@@ -12,7 +12,7 @@ export class EntityGroup {
 
   render (renderer) {
 
-    const renderingInstructions = []  // Flat array of (tl x, tl y, br x, br y, same in texture space, ... )
+    const renderingInstructions = []  // Array of instructions:  { textureCoords : [ x1, y1, x2, y2 ], tileCoords: [ x1, y1, x2, y2 ] }
 
     for (const entity of this.entities) {
       // From each entity, ask for the texture coordinates and where it'd like to be drawn. Specifically we get
@@ -22,12 +22,13 @@ export class EntityGroup {
 
       const instructions = entity.getRenderingInstructions()
 
-      for (let i = 0; i < instructions.length; ++i) {
-        renderingInstructions.push(instructions[i])
-      }
+      if (Array.isArray(instructions))
+        Array.prototype.push(renderingInstructions, instructions)
+      else
+        renderingInstructions.push(instructions)
     }
 
-    this.renderSprites(renderer, renderingInstructions.flat())
+    this.renderSprites(renderer, renderingInstructions)
 
     // Then render whatever the entity desires
     for (const entity of this.entities) {
@@ -38,94 +39,111 @@ export class EntityGroup {
   renderSprites (renderer, instructions) {
     const { gl, glManager, game } = renderer
 
-    // How many rectangular textures need to be drawn
-    const rectToDraw = Math.floor(instructions.length / 8)
+    if (instructions.length === 0) return
 
-    // Tile space,
-    const positionArray = new Float32Array(rectToDraw * 4)
+    // Tile space positions
+    // For each rectangle we need six vertices, so twelve coordinates
+    const positionArray = new Float32Array(instructions.length * 12)
+
     // Texture pixel space, what part of the texture should we be mapping to
-    const textureCoordArray = new Float32Array(rectToDraw * 4)
+    const textureCoordArray = new Float32Array(instructions.length * 12)
 
-    // Copy over instructions
-    for (let i = 0; i < rectToDraw; ++i) {
-      const instructionsIndx = i * 8
-      const arrayIndx = i * 4
+    for (let i = 0; i < instructions.length; ++i) { // construct rectangles
+      const instruction = instructions[i]
+      const indx = 12 * i
 
-      for (let j = 0; j < 4; ++j) {
-        positionArray[arrayIndx+j] = instructions[instructionsIndx+j]
-        textureCoordArray[arrayIndx+j] = instructions[instructionsIndx+j+4]
-      }
+      const { textureCoords, tileCoords } = instruction
+
+      positionArray[indx] = tileCoords[0]
+      positionArray[indx+1] = tileCoords[1]
+      positionArray[indx+2] = tileCoords[2]
+      positionArray[indx+3] = tileCoords[3]
+      positionArray[indx+4] = tileCoords[0]
+      positionArray[indx+5] = tileCoords[3]
+
+      positionArray[indx+6] = tileCoords[0]
+      positionArray[indx+7] = tileCoords[1]
+      positionArray[indx+8] = tileCoords[2]
+      positionArray[indx+9] = tileCoords[3]
+      positionArray[indx+10] = tileCoords[2]
+      positionArray[indx+11] = tileCoords[1]
+
+      textureCoordArray[indx] = textureCoords[0]
+      textureCoordArray[indx+1] = textureCoords[1]
+      textureCoordArray[indx+2] = textureCoords[2]
+      textureCoordArray[indx+3] = textureCoords[3]
+      textureCoordArray[indx+4] = textureCoords[0]
+      textureCoordArray[indx+5] = textureCoords[3]
+
+      textureCoordArray[indx+6] = textureCoords[0]
+      textureCoordArray[indx+7] = textureCoords[1]
+      textureCoordArray[indx+8] = textureCoords[2]
+      textureCoordArray[indx+9] = textureCoords[3]
+      textureCoordArray[indx+10] = textureCoords[2]
+      textureCoordArray[indx+11] = textureCoords[1]
     }
 
-    // Transformation from tiles
-
-    const posArrayBuffer = glManager.getBuffer(this.id+'pos')
-    const texCoordArrayBuffer = glManager.getBuffer(this.id+'texCoord')
+    //console.log(positionArray, textureCoordArray)
 
     const glTexturePack = texturePack.getTextureObject(renderer)
 
     gl.activeTexture(gl.TEXTURE0)
     gl.bindTexture(gl.TEXTURE_2D, glTexturePack)
 
-    const program = glManager.getProgram("TileLayer") ?? glManager.createProgram("TileLayer",
+    const program = glManager.getProgram("EntityGroup") ?? glManager.createProgram("EntityGroup",
       // In the vertex shader, we set the vec2 vWorldCoord to the location in the world texture where we're drawing.
       // The location in the world texture is the same as the tileData, so this is done via a transformation of
       // coordinates, namely the transformation returned by game.getClipToWorldTransform()
-      `precision mediump float;
-       attribute vec2 vPosition;
+      `attribute vec2 vPosition;
+       attribute vec2 vTextureCoord;
        
-       uniform vec2 transformSlopes;
-       uniform vec2 transformConstants;
+       varying highp vec2 vTextureCoordInterp;
        
-       varying vec2 vWorldCoord;
+       uniform vec2 tileToClipSlopes;
+       uniform vec2 tileToClipConstants;
+       
+       uniform vec2 textureSize;
 
-       void main() {
-         gl_Position = vec4(vPosition, 0, 1);
-         vWorldCoord = transformSlopes * vPosition + transformConstants;
-       }`, `precision mediump float;
-       varying vec2 vWorldCoord; // Where in the world we are, perhaps between (0,0) and (32,18)
-       
-       uniform sampler2D worldTexture;
-       uniform sampler2D tileset;
-       uniform vec2 worldSize; // Know where to look in the world texture
-       uniform float tileSize; // in pixels
-       uniform vec2 tilesetSize; // width and height of the tileset in pixels
-       
-       vec2 roundVec2(vec2 v) {
-         return vec2(floor(v.x + 0.5), floor(v.y + 0.5));
-       }
-       
-       void main() {
-         // This is the tile we are in
-         vec2 tileLookup = floor(vWorldCoord);
-         
-         // the r and g values have the position in the tileset array where it should be. We center on the pixel to
-         // avoid any rounding errors
-         vec2 tilePos = texture2D(worldTexture, (tileLookup + vec2(0.5, 0.5)) / worldSize).xy * 255.;
-         
-         // Should be two integers in pixel space
-         vec2 roundedTilePos = roundVec2(tilePos * tileSize);
-         
-         // We now need the location of the texel WITHIN the tile. We use the difference between the vWorldCoord and
-         // the vec used for the tile lookup, to avoid rounding errors. because we're using gl nearest, we again try
-         // to round to the nearest pixel and sample it at its center. We also have to FLIP the y axis value, because the tiles are
-         // upside down relative to this.
-         
-         vec2 shiftAmount = floor((vWorldCoord - tileLookup) * tileSize) + vec2(0.5, 0.5);
-         shiftAmount.y = tileSize - shiftAmount.y;
-         
-         gl_FragColor = texture2D(tileset, (roundedTilePos + shiftAmount) / tilesetSize);
-         gl_FragColor.rgb *= gl_FragColor.a;
-       }`, ["vPosition"], ["transformSlopes", "transformConstants", "worldTexture", "tileset", "worldSize", "tileSize", "tilesetSize"])
-
-    const transformation = renderer.game.getClipToWorldTransform()
+        void main() {
+            gl_Position = vec4(tileToClipSlopes * vPosition + tileToClipConstants, 0, 1);
+            vTextureCoordInterp = vTextureCoord / textureSize;
+        }`, `precision mediump float;
+        varying highp vec2 vTextureCoordInterp;
+        uniform sampler2D texturePack;
+        
+        void main() {
+          gl_FragColor = texture2D(texturePack, vTextureCoordInterp);
+          gl_FragColor.rgb *= gl_FragColor.a;
+        }
+       `, ["vPosition", "vTextureCoord"], ["tileToClipSlopes", "tileToClipConstants", "textureSize", "texturePack" ])
 
     gl.useProgram(program.program);
 
     const vPosition = program.attribs.vPosition
+    const vTextureCoord = program.attribs.vTextureCoord
+
+    const posArrayBuffer = glManager.getBuffer(this.id+'pos')
+    const texCoordArrayBuffer = glManager.getBuffer(this.id+'texCoord')
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, posArrayBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, positionArray, gl.DYNAMIC_DRAW)
 
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(vPosition)
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, texCoordArrayBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, textureCoordArray, gl.DYNAMIC_DRAW)
+
+    gl.vertexAttribPointer(vTextureCoord, 2, gl.FLOAT, false, 0, 0)
+    gl.enableVertexAttribArray(vTextureCoord)
+
+    const tileToClip = game.getWorldToClipTransform()
+    gl.uniform2f(program.uniforms.tileToClipSlopes, tileToClip.x_m, tileToClip.y_m)
+    gl.uniform2f(program.uniforms.tileToClipConstants, tileToClip.x_b, tileToClip.y_b)
+    gl.uniform2f(program.uniforms.textureSize, texturePack.width, texturePack.height)
+    gl.uniform1i(program.uniforms.texturePack, 0) // texture 0, glTexturePack
+
+    gl.drawArrays(gl.TRIANGLES, 0, instructions.length * 6)
   }
 }
 

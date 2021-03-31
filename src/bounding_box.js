@@ -69,7 +69,8 @@ export class BoundingBox {
 
   setBottomMidpoint (x, y) {
     this.cx = x
-    this.cy = y - this.height / 2
+    this.cy = y + this.height / 2
+    return this
   }
 
   // bottom left in graph-like spaces, top left in canvas-like spaces

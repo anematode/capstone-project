@@ -7,6 +7,8 @@ import {BackgroundImage} from "./background_image"
 import {Vec2} from "./vec2"
 import {generateCaveWorld} from "./gen_cave"
 import {EntityGroup} from "./entity_group"
+import {PlayerEntity} from "./panda_entity"
+import {PhysicsEngine} from "./physics_engine"
 
 const aspectRatio = 16 / 9
 const maxGameWidth = 1920
@@ -35,8 +37,9 @@ class Game {
     this.domElement = domElement
     this.canvas = canvas
     this.renderer = new GameRenderer(this)
+    this.physicsEngine = new PhysicsEngine(this)
 
-    this.viewport = new BoundingBox(0, 0, 128, 72) // What is the bounding box in tile space
+    this.viewport = new BoundingBox(0, 0, 32, 32).setCenter(0,0) // What is the bounding box in tile space
     this.world = {
       width: 128,
       height: 128,
@@ -151,7 +154,7 @@ class Game {
     this.maintainValidViewport()
 
     const { world } = this
-    this.renderer.render([ world.backgroundImage, world.physicalTiles ])
+    this.renderer.render([ world.backgroundImage, world.physicalTiles, world.entities ])
 
     requestAnimationFrame(() => { this.gameLoop() })
   }
@@ -165,12 +168,15 @@ assetTracker.onfinished = () => {
 
   game.world.physicalTiles.tileData = generateCaveWorld(128, 128)
   game.world.physicalTiles.markUpdate()
+  game.world.entities.entities.push(new PlayerEntity())
 
   game.start()
 
   window.game = game
   window.renderer = game.renderer
   window.gl = game.renderer.gl
+  window.world = game.world
+  window.player = game.world.entities.entities[0]
 
   //for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
 }

@@ -38,7 +38,11 @@ export class TileLayer {
   }
 
   setTileAt (x, y, v) {
-    this.needsUpdate = true
+    if (this.tileInBounds(x, y)) {
+      this.tileData[y][x] = this.tileset.toCode(v)
+
+      this.needsUpdate = true
+    }
   }
 
   resize (width, height) {
@@ -104,13 +108,15 @@ export class TileLayer {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); // use nearest
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-      // Load in a rectangle geometry
-      const rectangle = new Float32Array([-1, 1, 1, 1, -1, -1, 1, -1])
-      const buf = glManager.getBuffer(this.id)
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf)
-      gl.bufferData(gl.ARRAY_BUFFER, rectangle, gl.STATIC_DRAW)
     }
+
+    // Load in a rectangle geometry
+    const rectangle = new Float32Array([-1, 1, 1, 1, -1, -1, 1, -1])
+    const buf = glManager.getBuffer(this.id)
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+    gl.bufferData(gl.ARRAY_BUFFER, rectangle, gl.STATIC_DRAW)
 
     gl.activeTexture(gl.TEXTURE0) // bind tileset to texture 0
     gl.bindTexture(gl.TEXTURE_2D, tilesetTexture)

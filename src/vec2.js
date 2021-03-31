@@ -21,9 +21,14 @@ export class Vec2 {
     this.y = y
   }
 
-  set(v) {
-    this.x = v.x
-    this.y = v.y
+  set(v, y) {
+    if (y !== undefined) {
+      this.x = v
+      this.y = y
+    } else {
+      this.x = v.x
+      this.y = v.y
+    }
   }
 
   subtract(v) {
@@ -69,7 +74,7 @@ export class Vec2 {
   unit() {
     if (this.x === 0 && this.y === 0)
       return this.clone()
-    
+
     return this.clone().divide(this.length())
   }
 

@@ -10,6 +10,7 @@ export class GameRenderer {
     const canvas = this.canvas = game.canvas
 
     this.canvasCtx = canvas.getContext("2d")
+    this.debuggers = []
 
     this.glCanvas = document.createElement("canvas")
     let gl = this.gl = this.glCanvas.getContext("webgl", {
@@ -91,12 +92,25 @@ export class GameRenderer {
   render (instructions=[]) {
     this.clearCanvas()
     this.clearGLCanvas()
+    this.clearDebuggers()
 
     for (const elem of instructions) {
       elem.render(this)
     }
 
+    for (const debug of this.debuggers) {
+      debug.render(this)
+    }
+
     // Copy over
     this.copyGLCanvas()
+  }
+
+  clearDebuggers () {
+    this.debuggers = []
+  }
+
+  addDebugger (obj) {
+    this.debuggers.push(obj)
   }
 }
