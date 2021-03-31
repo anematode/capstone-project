@@ -99,7 +99,7 @@ export class TileLayer {
 
     let worldGLTexture = glManager.getTexture(this.id)
 
-    if (this.needsUpdate) {
+    if (this.needsUpdate || renderer.isFirstPass) {
       gl.bindTexture(gl.TEXTURE_2D, worldGLTexture)
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.worldTexture)
 
@@ -107,8 +107,6 @@ export class TileLayer {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); // use nearest
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-
-
     }
 
     // Load in a rectangle geometry

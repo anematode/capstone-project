@@ -2,17 +2,35 @@
 // The maximum number of times we call tick() when we're drifting over
 const maxTicksBeforeLagBack = 5
 
-function createTicker (tickCallback, tickLength=1/60 /*seconds*/) {
+function createTicker (tickCallback, tickLength=1 /*seconds*/) {
   tickLength = tickLength * 1000 // ms
 
+  let trueStartTime
   let startTime
   let tickIndex
 
   let isRunning = false
 
+  let historyLen = 5
+  let tickTimeHistory = []
+
   function doTick () {
+    let tickStart = Date.now()
+
     tickIndex++
     tickCallback()
+
+    let tickEnd = Date.now()
+    let tickTime = tickEnd - tickStart
+
+    tickTimeHistory.push(tickTime)
+    if (tickTimeHistory.length > historyLen) {
+      tickTimeHistory.shift()
+    }
+  }
+
+  function avgTickTime () { // in ms
+    return tickTimeHistory.reduce((a, b) => a + b) / tickTimeHistory.length
   }
 
   function runTicks () {
@@ -26,17 +44,32 @@ function createTicker (tickCallback, tickLength=1/60 /*seconds*/) {
       console.log(`Tick ${tickIndex} should come at t=${expectedTime}, while it is t=${currentTime}; skipping tick invocation`)
       setTimeout(runTicks, currentTime - expectedTime)
     } else if (expectedTime < currentTime - tickLength) {
-      // more than a tick late; call tick() multiple times to catch up
-      for (let i = 0; i < maxTicksBeforeLagBack; ++i) {
-        doTick()
-        if (startTime + tickLength * tickIndex - Date.now() < tickLength) {
-          break cow
+      console.log("more than one tick late")
+
+      console.log("expected", expectedTime, "current", currentTime)
+
+      if (expectedTime < currentTime - 5 * tickLength) {
+        console.warn(`Can't keep up! Average tick took ${avgTickTime()} ms (should be ${tickLength} ms).`)
+
+        startTime = Date.now()
+        tickIndex = 1
+      } else {// else, call tick() multiple times to catch up
+        for (let i = 0; i < maxTicksBeforeLagBack; ++i) {
+          doTick()
+
+          let delta = startTime + tickLength * tickIndex - Date.now()
+
+          // successfully caught up
+          if (delta < tickLength) {
+            break cow
+          } else {
+            delta
+          }
         }
       }
 
-      // Time to lag and reset everything
-      startTime = Date.now()
-      tickIndex = 1
+      console.log("Lagging back")
+
     } else {
       doTick()
     }
@@ -53,13 +86,16 @@ function createTicker (tickCallback, tickLength=1/60 /*seconds*/) {
   return {
     start: () => {
       isRunning = true
-      startTime = Date.now()
-      tickIndex = 1
+      trueStartTime = startTime = Date.now()
+      tickIndex = 0
 
       setTimeout(runTicks, 0)
     },
     stop: () => {
       isRunning = false
+    },
+    getTickCount: () => {
+      return this.tickIndex
     }
   }
 }

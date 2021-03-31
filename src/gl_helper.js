@@ -129,6 +129,13 @@ export class GLResourceManager {
     return this.programs[programName]
   }
 
+  onContextLost () {
+    this.programs = {}
+    this.buffers = {}
+    this.textures = {}
+  }
+
+
   /**
    * Create a buffer with a certain name, typically including a WebGLElement's id
    * @param bufferName {string} Name of the buffer

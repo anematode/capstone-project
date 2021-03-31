@@ -9,40 +9,42 @@ export class GameRenderer {
     this.game = game
     const canvas = this.canvas = game.canvas
 
-    this.canvasCtx = canvas.getContext("2d")
     this.debuggers = []
-
-    this.glCanvas = document.createElement("canvas")
-    let gl = this.gl = this.glCanvas.getContext("webgl", {
+    let gl = this.gl = canvas.getContext("webgl", {
       preserveDrawingBuffer: true,
       premultipliedAlpha: false
     })
 
     if (!gl) alert("Browser lacks WebGL support.")
 
+    canvas.addEventListener("webglcontextlost", (evt) => {
+      console.log("context lost")
+      evt.preventDefault()
+      this.glManager.onContextLost()
+    }, false)
+    canvas.addEventListener("webglcontextrestored", () => {
+      console.log("context restored")
+      this.init()
+    })
+
+    this.glManager = new GLResourceManager(gl)
+
+    this.init()
+  }
+
+  init () {
+    let gl = this.gl
+
     gl.enable(gl.BLEND)
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-
-    this.glManager = new GLResourceManager(this.gl)
-
-    // Init
-    this.resizeGLCanvas()
-  }
-
-  resetCanvasCtxTransform () {
-    this.canvasCtx.resetTransform()
-    this.canvasCtx.scale(this.canvasWidth / this.width, this.canvasHeight / this.height)
-  }
-
-  clearCanvas () {
-    this.canvasCtx.clearRect(0, 0, this.width, this.height)
+    this.isFirstPass = true
   }
 
   get viewport () {
     return this.game.viewport
   }
 
-  clearGLCanvas (r = 0, g = 0, b = 0, a = 0) {
+  clearCanvas (r = 0, g = 0, b = 0, a = 0) {
     const { gl } = this
 
     gl.clearColor(r, g, b, a)
@@ -50,15 +52,11 @@ export class GameRenderer {
   }
 
   resize () {
-    this.resizeGLCanvas()
-  }
-
-  resizeGLCanvas () {
     // buffer dims
     const {width, height} = this.canvas
 
-    this.glCanvas.width = width
-    this.glCanvas.height = height
+    this.canvas.width = width
+    this.canvas.height = height
 
     this.gl.viewport(0, 0, width, height)
   }
@@ -79,19 +77,11 @@ export class GameRenderer {
     return this.game.height
   }
 
-  copyGLCanvas () {
-    this.resizeGLCanvas()
-
-    const { width, height } = this.canvas
-
-    this.canvasCtx.resetTransform()
-    this.canvasCtx.drawImage(this.glCanvas, 0, 0, width, height, 0, 0, width, height)
-    this.resetCanvasCtxTransform()
-  }
 
   render (instructions=[]) {
+    if (this.gl.isContextLost()) return // can't draw anything without WebGL
+
     this.clearCanvas()
-    this.clearGLCanvas()
     this.clearDebuggers()
 
     for (const elem of instructions) {
@@ -102,8 +92,8 @@ export class GameRenderer {
       debug.render(this)
     }
 
-    // Copy over
-    this.copyGLCanvas()
+    // deals with context loss, etc.
+    this.isFirstPass = false
   }
 
   clearDebuggers () {
