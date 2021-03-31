@@ -132,6 +132,12 @@
       };
       return this.programs[programName];
     }
+
+    onContextLost() {
+      this.programs = {};
+      this.buffers = {};
+      this.textures = {};
+    }
     /**
      * Create a buffer with a certain name, typically including a WebGLElement's id
      * @param bufferName {string} Name of the buffer
@@ -262,35 +268,37 @@
       // over) special tiles, entities.
       this.game = game;
       const canvas = this.canvas = game.canvas;
-      this.canvasCtx = canvas.getContext("2d");
       this.debuggers = [];
-      this.glCanvas = document.createElement("canvas");
-      let gl = this.gl = this.glCanvas.getContext("webgl", {
+      let gl = this.gl = canvas.getContext("webgl", {
         preserveDrawingBuffer: true,
         premultipliedAlpha: false
       });
       if (!gl) alert("Browser lacks WebGL support.");
+      canvas.addEventListener("webglcontextlost", evt => {
+        console.log("context lost");
+        evt.preventDefault();
+        this.glManager.onContextLost();
+      }, false);
+      canvas.addEventListener("webglcontextrestored", () => {
+        console.log("context restored");
+        this.init();
+      });
+      this.glManager = new GLResourceManager(gl);
+      this.init();
+    }
+
+    init() {
+      let gl = this.gl;
       gl.enable(gl.BLEND);
       gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-      this.glManager = new GLResourceManager(this.gl); // Init
-
-      this.resizeGLCanvas();
-    }
-
-    resetCanvasCtxTransform() {
-      this.canvasCtx.resetTransform();
-      this.canvasCtx.scale(this.canvasWidth / this.width, this.canvasHeight / this.height);
-    }
-
-    clearCanvas() {
-      this.canvasCtx.clearRect(0, 0, this.width, this.height);
+      this.isFirstPass = true;
     }
 
     get viewport() {
       return this.game.viewport;
     }
 
-    clearGLCanvas(r = 0, g = 0, b = 0, a = 0) {
+    clearCanvas(r = 0, g = 0, b = 0, a = 0) {
       const {
         gl
       } = this;
@@ -299,17 +307,13 @@
     }
 
     resize() {
-      this.resizeGLCanvas();
-    }
-
-    resizeGLCanvas() {
       // buffer dims
       const {
         width,
         height
       } = this.canvas;
-      this.glCanvas.width = width;
-      this.glCanvas.height = height;
+      this.canvas.width = width;
+      this.canvas.height = height;
       this.gl.viewport(0, 0, width, height);
     }
 
@@ -329,20 +333,10 @@
       return this.game.height;
     }
 
-    copyGLCanvas() {
-      this.resizeGLCanvas();
-      const {
-        width,
-        height
-      } = this.canvas;
-      this.canvasCtx.resetTransform();
-      this.canvasCtx.drawImage(this.glCanvas, 0, 0, width, height, 0, 0, width, height);
-      this.resetCanvasCtxTransform();
-    }
-
     render(instructions = []) {
+      if (this.gl.isContextLost()) return; // can't draw anything without WebGL
+
       this.clearCanvas();
-      this.clearGLCanvas();
       this.clearDebuggers();
 
       for (const elem of instructions) {
@@ -351,10 +345,10 @@
 
       for (const debug of this.debuggers) {
         debug.render(this);
-      } // Copy over
+      } // deals with context loss, etc.
 
 
-      this.copyGLCanvas();
+      this.isFirstPass = false;
     }
 
     clearDebuggers() {
@@ -448,7 +442,7 @@
       const ctx = canv.getContext("2d");
       let tileImageCount = Object.keys(tileImages).length; // We wish to generate a texture with power-of-two side lengths, so we find the next power of two of tileImageCount + 1
 
-      const exponent = Math.ceil(Math.log2(tileImageCount + 1));
+      const exponent = Math.ceil(Math.log2(tileImageCount + 2));
       let textureHeightInTiles = 2 ** ((exponent - exponent % 2) / 2);
       let textureWidthInTiles = 2 ** exponent / textureHeightInTiles; // We generate a square texture of a sufficient size. 0 is reserved for no tile
 
@@ -764,9 +758,7 @@
 
   }
 
-  const tileNames = function () {
-    return `acacia_door_bottom acacia_door_top acacia_leaves acacia_log acacia_log_top acacia_planks acacia_sapling acacia_trapdoor activator_rail activator_rail_on allium andesite anvil anvil_top attached_melon_stem attached_pumpkin_stem azure_bluet bamboo_large_leaves bamboo_singleleaf bamboo_small_leaves bamboo_stage0 bamboo_stalk beacon bedrock beetroots_stage0 beetroots_stage1 beetroots_stage2 beetroots_stage3 birch_door_bottom birch_door_top birch_leaves birch_log birch_log_top birch_planks birch_sapling birch_trapdoor black_concrete black_concrete_powder black_glazed_terracotta black_shulker_box black_stained_glass black_stained_glass_pane_top black_terracotta black_wool blue_concrete blue_concrete_powder blue_glazed_terracotta blue_ice blue_orchid blue_shulker_box blue_stained_glass blue_stained_glass_pane_top blue_terracotta blue_wool bone_block_side bone_block_top bookshelf brain_coral brain_coral_block brain_coral_fan brewing_stand brewing_stand_base bricks brown_concrete brown_concrete_powder brown_glazed_terracotta brown_mushroom brown_mushroom_block brown_shulker_box brown_stained_glass brown_stained_glass_pane_top brown_terracotta brown_wool bubble_coral bubble_coral_block bubble_coral_fan cactus_bottom cactus_side cactus_top cake_bottom cake_inner cake_side cake_top carrots_stage0 carrots_stage1 carrots_stage2 carrots_stage3 carved_pumpkin cauldron_bottom cauldron_inner cauldron_side cauldron_top chain_command_block_back chain_command_block_back chain_command_block_conditional chain_command_block_conditional chain_command_block_front chain_command_block_front chain_command_block_side chain_command_block_side chipped_anvil_top chiseled_quartz_block chiseled_quartz_block_top chiseled_red_sandstone chiseled_sandstone chiseled_stone_bricks chorus_flower chorus_flower_dead chorus_plant clay coal_block coal_ore coarse_dirt cobblestone cobweb cocoa_stage0 cocoa_stage1 cocoa_stage2 command_block_back command_block_back command_block_conditional command_block_conditional command_block_front command_block_front command_block_side command_block_side comparator comparator_on conduit cornflower cracked_stone_bricks crafting_table_front crafting_table_side crafting_table_top crying_obsidian cut_red_sandstone cut_sandstone cyan_concrete cyan_concrete_powder cyan_glazed_terracotta cyan_shulker_box cyan_stained_glass cyan_stained_glass_pane_top cyan_terracotta cyan_wool damaged_anvil_top dandelion dark_oak_door_bottom dark_oak_door_top dark_oak_leaves dark_oak_log dark_oak_log_top dark_oak_planks dark_oak_sapling dark_oak_trapdoor dark_prismarine daylight_detector_inverted_top daylight_detector_side daylight_detector_top dead_brain_coral dead_brain_coral_block dead_brain_coral_fan dead_bubble_coral dead_bubble_coral_block dead_bubble_coral_fan dead_bush dead_fire_coral dead_fire_coral_block dead_fire_coral_fan dead_horn_coral dead_horn_coral_block dead_horn_coral_fan dead_tube_coral dead_tube_coral_block dead_tube_coral_fan debug debug2 destroy_stage_0 destroy_stage_1 destroy_stage_2 destroy_stage_3 destroy_stage_4 destroy_stage_5 destroy_stage_6 destroy_stage_7 destroy_stage_8 destroy_stage_9 detector_rail detector_rail_on diamond_block diamond_ore diorite dirt dispenser_front dispenser_front_vertical dragon_egg dried_kelp_bottom dried_kelp_side dried_kelp_top dropper_front dropper_front_vertical emerald_block emerald_ore enchanting_table_bottom enchanting_table_side enchanting_table_top end_portal_frame_eye end_portal_frame_side end_portal_frame_top end_rod end_stone end_stone_bricks farmland farmland_moist fern fire_0 fire_0 fire_1 fire_1 fire_coral fire_coral_block fire_coral_fan flower_pot frosted_ice_0 frosted_ice_1 frosted_ice_2 frosted_ice_3 furnace_front furnace_front_on furnace_side furnace_top glass glass_pane_top glowstone gold_block gold_ore granite grass grass_block_side grass_block_side_overlay grass_block_snow grass_block_top grass_path_side grass_path_top gravel gray_concrete gray_concrete_powder gray_glazed_terracotta gray_shulker_box gray_stained_glass gray_stained_glass_pane_top gray_terracotta gray_wool green_concrete green_concrete_powder green_glazed_terracotta green_shulker_box green_stained_glass green_stained_glass_pane_top green_terracotta green_wool hay_block_side hay_block_top hopper_inside hopper_outside hopper_top horn_coral horn_coral_block horn_coral_fan ice iron_bars iron_block iron_door_bottom iron_door_top iron_ore iron_trapdoor item_frame jack_o_lantern jukebox_side jukebox_top jungle_door_bottom jungle_door_top jungle_leaves jungle_log jungle_log_top jungle_planks jungle_sapling jungle_trapdoor kelp kelp kelp_plant kelp_plant ladder lapis_block lapis_ore large_fern_bottom large_fern_top lava_flow lava_flow lava_still lava_still lever light_blue_concrete light_blue_concrete_powder light_blue_glazed_terracotta light_blue_shulker_box light_blue_stained_glass light_blue_stained_glass_pane_top light_blue_terracotta light_blue_wool light_gray_concrete light_gray_concrete_powder light_gray_glazed_terracotta light_gray_shulker_box light_gray_stained_glass light_gray_stained_glass_pane_top light_gray_terracotta light_gray_wool lilac_bottom lilac_top lily_of_the_valley lily_pad lime_concrete lime_concrete_powder lime_glazed_terracotta lime_shulker_box lime_stained_glass lime_stained_glass_pane_top lime_terracotta lime_wool magenta_concrete magenta_concrete_powder magenta_glazed_terracotta magenta_shulker_box magenta_stained_glass magenta_stained_glass_pane_top magenta_terracotta magenta_wool magma magma melon_side melon_stem melon_top mossy_cobblestone mossy_stone_bricks mushroom_block_inside mushroom_stem mycelium_side mycelium_top nether_bricks nether_portal nether_portal nether_quartz_ore nether_wart_block nether_wart_stage0 nether_wart_stage1 nether_wart_stage2 netherrack note_block oak_door_bottom oak_door_top oak_leaves oak_log oak_log_top oak_planks oak_sapling oak_trapdoor observer_back observer_back_on observer_front observer_side observer_top obsidian orange_concrete orange_concrete_powder orange_glazed_terracotta orange_shulker_box orange_stained_glass orange_stained_glass_pane_top orange_terracotta orange_tulip orange_wool oxeye_daisy packed_ice peony_bottom peony_top pink_concrete pink_concrete_powder pink_glazed_terracotta pink_shulker_box pink_stained_glass pink_stained_glass_pane_top pink_terracotta pink_tulip pink_wool piston_bottom piston_inner piston_side piston_top piston_top_sticky podzol_side podzol_top polished_andesite polished_diorite polished_granite poppy potatoes_stage0 potatoes_stage1 potatoes_stage2 potatoes_stage3 powered_rail powered_rail_on prismarine prismarine prismarine_bricks pumpkin_side pumpkin_stem pumpkin_top purple_concrete purple_concrete_powder purple_glazed_terracotta purple_shulker_box purple_stained_glass purple_stained_glass_pane_top purple_terracotta purple_wool purpur_block purpur_pillar purpur_pillar_top quartz_block_bottom quartz_block_side quartz_block_top quartz_pillar quartz_pillar_top rail rail_corner red_concrete red_concrete_powder red_glazed_terracotta red_mushroom red_mushroom_block red_nether_bricks red_sand red_sandstone red_sandstone_bottom red_sandstone_top red_shulker_box red_stained_glass red_stained_glass_pane_top red_terracotta red_tulip red_wool redstone_block redstone_dust_dot redstone_dust_line0 redstone_dust_line1 redstone_dust_overlay redstone_lamp redstone_lamp_on redstone_ore redstone_torch redstone_torch_off repeater repeater_on repeating_command_block_back repeating_command_block_back repeating_command_block_conditional repeating_command_block_conditional repeating_command_block_front repeating_command_block_front repeating_command_block_side repeating_command_block_side rose_bush_bottom rose_bush_top sand sandstone sandstone_bottom sandstone_top sea_lantern sea_lantern sea_pickle seagrass seagrass shulker_box slime_block smooth_stone smooth_stone_slab_side snow soul_sand spawner sponge spruce_door_bottom spruce_door_top spruce_leaves spruce_log spruce_log_top spruce_planks spruce_sapling spruce_trapdoor stone stone_bricks stripped_acacia_log stripped_acacia_log_top stripped_birch_log stripped_birch_log_top stripped_dark_oak_log stripped_dark_oak_log_top stripped_jungle_log stripped_jungle_log_top stripped_oak_log stripped_oak_log_top stripped_spruce_log stripped_spruce_log_top structure_block structure_block_corner structure_block_data structure_block_load structure_block_save sugar_cane sunflower_back sunflower_bottom sunflower_front sunflower_top tall_grass_bottom tall_grass_top tall_seagrass_bottom tall_seagrass_bottom tall_seagrass_top tall_seagrass_top terracotta tnt_bottom tnt_side tnt_top torch tripwire tripwire_hook tube_coral tube_coral_block tube_coral_fan turtle_egg turtle_egg_slightly_cracked turtle_egg_very_cracked vine water_flow water_flow water_overlay water_still water_still wet_sponge wheat_stage0 wheat_stage1 wheat_stage2 wheat_stage3 wheat_stage4 wheat_stage5 wheat_stage6 wheat_stage7 white_concrete white_concrete_powder white_glazed_terracotta white_shulker_box white_stained_glass white_stained_glass_pane_top white_terracotta white_tulip white_wool wither_rose yellow_concrete yellow_concrete_powder yellow_glazed_terracotta yellow_shulker_box yellow_stained_glass yellow_stained_glass_pane_top yellow_terracotta yellow_wool`;
-  }();
+  const tileNames = "stone coal_ore iron_ore diamond_ore gold_ore redstone_ore emerald_ore oak_log"; //(function () { return `acacia_door_bottom acacia_door_top acacia_leaves acacia_log acacia_log_top acacia_planks acacia_sapling acacia_trapdoor activator_rail activator_rail_on allium andesite anvil anvil_top attached_melon_stem attached_pumpkin_stem azure_bluet bamboo_large_leaves bamboo_singleleaf bamboo_small_leaves bamboo_stage0 bamboo_stalk beacon bedrock beetroots_stage0 beetroots_stage1 beetroots_stage2 beetroots_stage3 birch_door_bottom birch_door_top birch_leaves birch_log birch_log_top birch_planks birch_sapling birch_trapdoor black_concrete black_concrete_powder black_glazed_terracotta black_shulker_box black_stained_glass black_stained_glass_pane_top black_terracotta black_wool blue_concrete blue_concrete_powder blue_glazed_terracotta blue_ice blue_orchid blue_shulker_box blue_stained_glass blue_stained_glass_pane_top blue_terracotta blue_wool bone_block_side bone_block_top bookshelf brain_coral brain_coral_block brain_coral_fan brewing_stand brewing_stand_base bricks brown_concrete brown_concrete_powder brown_glazed_terracotta brown_mushroom brown_mushroom_block brown_shulker_box brown_stained_glass brown_stained_glass_pane_top brown_terracotta brown_wool bubble_coral bubble_coral_block bubble_coral_fan cactus_bottom cactus_side cactus_top cake_bottom cake_inner cake_side cake_top carrots_stage0 carrots_stage1 carrots_stage2 carrots_stage3 carved_pumpkin cauldron_bottom cauldron_inner cauldron_side cauldron_top chain_command_block_back chain_command_block_back chain_command_block_conditional chain_command_block_conditional chain_command_block_front chain_command_block_front chain_command_block_side chain_command_block_side chipped_anvil_top chiseled_quartz_block chiseled_quartz_block_top chiseled_red_sandstone chiseled_sandstone chiseled_stone_bricks chorus_flower chorus_flower_dead chorus_plant clay coal_block coal_ore coarse_dirt cobblestone cobweb cocoa_stage0 cocoa_stage1 cocoa_stage2 command_block_back command_block_back command_block_conditional command_block_conditional command_block_front command_block_front command_block_side command_block_side comparator comparator_on conduit cornflower cracked_stone_bricks crafting_table_front crafting_table_side crafting_table_top crying_obsidian cut_red_sandstone cut_sandstone cyan_concrete cyan_concrete_powder cyan_glazed_terracotta cyan_shulker_box cyan_stained_glass cyan_stained_glass_pane_top cyan_terracotta cyan_wool damaged_anvil_top dandelion dark_oak_door_bottom dark_oak_door_top dark_oak_leaves dark_oak_log dark_oak_log_top dark_oak_planks dark_oak_sapling dark_oak_trapdoor dark_prismarine daylight_detector_inverted_top daylight_detector_side daylight_detector_top dead_brain_coral dead_brain_coral_block dead_brain_coral_fan dead_bubble_coral dead_bubble_coral_block dead_bubble_coral_fan dead_bush dead_fire_coral dead_fire_coral_block dead_fire_coral_fan dead_horn_coral dead_horn_coral_block dead_horn_coral_fan dead_tube_coral dead_tube_coral_block dead_tube_coral_fan debug debug2 destroy_stage_0 destroy_stage_1 destroy_stage_2 destroy_stage_3 destroy_stage_4 destroy_stage_5 destroy_stage_6 destroy_stage_7 destroy_stage_8 destroy_stage_9 detector_rail detector_rail_on diamond_block diamond_ore diorite dirt dispenser_front dispenser_front_vertical dragon_egg dried_kelp_bottom dried_kelp_side dried_kelp_top dropper_front dropper_front_vertical emerald_block emerald_ore enchanting_table_bottom enchanting_table_side enchanting_table_top end_portal_frame_eye end_portal_frame_side end_portal_frame_top end_rod end_stone end_stone_bricks farmland farmland_moist fern fire_0 fire_0 fire_1 fire_1 fire_coral fire_coral_block fire_coral_fan flower_pot frosted_ice_0 frosted_ice_1 frosted_ice_2 frosted_ice_3 furnace_front furnace_front_on furnace_side furnace_top glass glass_pane_top glowstone gold_block gold_ore granite grass grass_block_side grass_block_side_overlay grass_block_snow grass_block_top grass_path_side grass_path_top gravel gray_concrete gray_concrete_powder gray_glazed_terracotta gray_shulker_box gray_stained_glass gray_stained_glass_pane_top gray_terracotta gray_wool green_concrete green_concrete_powder green_glazed_terracotta green_shulker_box green_stained_glass green_stained_glass_pane_top green_terracotta green_wool hay_block_side hay_block_top hopper_inside hopper_outside hopper_top horn_coral horn_coral_block horn_coral_fan ice iron_bars iron_block iron_door_bottom iron_door_top iron_ore iron_trapdoor item_frame jack_o_lantern jukebox_side jukebox_top jungle_door_bottom jungle_door_top jungle_leaves jungle_log jungle_log_top jungle_planks jungle_sapling jungle_trapdoor kelp kelp kelp_plant kelp_plant ladder lapis_block lapis_ore large_fern_bottom large_fern_top lava_flow lava_flow lava_still lava_still lever light_blue_concrete light_blue_concrete_powder light_blue_glazed_terracotta light_blue_shulker_box light_blue_stained_glass light_blue_stained_glass_pane_top light_blue_terracotta light_blue_wool light_gray_concrete light_gray_concrete_powder light_gray_glazed_terracotta light_gray_shulker_box light_gray_stained_glass light_gray_stained_glass_pane_top light_gray_terracotta light_gray_wool lilac_bottom lilac_top lily_of_the_valley lily_pad lime_concrete lime_concrete_powder lime_glazed_terracotta lime_shulker_box lime_stained_glass lime_stained_glass_pane_top lime_terracotta lime_wool magenta_concrete magenta_concrete_powder magenta_glazed_terracotta magenta_shulker_box magenta_stained_glass magenta_stained_glass_pane_top magenta_terracotta magenta_wool magma magma melon_side melon_stem melon_top mossy_cobblestone mossy_stone_bricks mushroom_block_inside mushroom_stem mycelium_side mycelium_top nether_bricks nether_portal nether_portal nether_quartz_ore nether_wart_block nether_wart_stage0 nether_wart_stage1 nether_wart_stage2 netherrack note_block oak_door_bottom oak_door_top oak_leaves oak_log oak_log_top oak_planks oak_sapling oak_trapdoor observer_back observer_back_on observer_front observer_side observer_top obsidian orange_concrete orange_concrete_powder orange_glazed_terracotta orange_shulker_box orange_stained_glass orange_stained_glass_pane_top orange_terracotta orange_tulip orange_wool oxeye_daisy packed_ice peony_bottom peony_top pink_concrete pink_concrete_powder pink_glazed_terracotta pink_shulker_box pink_stained_glass pink_stained_glass_pane_top pink_terracotta pink_tulip pink_wool piston_bottom piston_inner piston_side piston_top piston_top_sticky podzol_side podzol_top polished_andesite polished_diorite polished_granite poppy potatoes_stage0 potatoes_stage1 potatoes_stage2 potatoes_stage3 powered_rail powered_rail_on prismarine prismarine prismarine_bricks pumpkin_side pumpkin_stem pumpkin_top purple_concrete purple_concrete_powder purple_glazed_terracotta purple_shulker_box purple_stained_glass purple_stained_glass_pane_top purple_terracotta purple_wool purpur_block purpur_pillar purpur_pillar_top quartz_block_bottom quartz_block_side quartz_block_top quartz_pillar quartz_pillar_top rail rail_corner red_concrete red_concrete_powder red_glazed_terracotta red_mushroom red_mushroom_block red_nether_bricks red_sand red_sandstone red_sandstone_bottom red_sandstone_top red_shulker_box red_stained_glass red_stained_glass_pane_top red_terracotta red_tulip red_wool redstone_block redstone_dust_dot redstone_dust_line0 redstone_dust_line1 redstone_dust_overlay redstone_lamp redstone_lamp_on redstone_ore redstone_torch redstone_torch_off repeater repeater_on repeating_command_block_back repeating_command_block_back repeating_command_block_conditional repeating_command_block_conditional repeating_command_block_front repeating_command_block_front repeating_command_block_side repeating_command_block_side rose_bush_bottom rose_bush_top sand sandstone sandstone_bottom sandstone_top sea_lantern sea_lantern sea_pickle seagrass seagrass shulker_box slime_block smooth_stone smooth_stone_slab_side snow soul_sand spawner sponge spruce_door_bottom spruce_door_top spruce_leaves spruce_log spruce_log_top spruce_planks spruce_sapling spruce_trapdoor stone stone_bricks stripped_acacia_log stripped_acacia_log_top stripped_birch_log stripped_birch_log_top stripped_dark_oak_log stripped_dark_oak_log_top stripped_jungle_log stripped_jungle_log_top stripped_oak_log stripped_oak_log_top stripped_spruce_log stripped_spruce_log_top structure_block structure_block_corner structure_block_data structure_block_load structure_block_save sugar_cane sunflower_back sunflower_bottom sunflower_front sunflower_top tall_grass_bottom tall_grass_top tall_seagrass_bottom tall_seagrass_bottom tall_seagrass_top tall_seagrass_top terracotta tnt_bottom tnt_side tnt_top torch tripwire tripwire_hook tube_coral tube_coral_block tube_coral_fan turtle_egg turtle_egg_slightly_cracked turtle_egg_very_cracked vine water_flow water_flow water_overlay water_still water_still wet_sponge wheat_stage0 wheat_stage1 wheat_stage2 wheat_stage3 wheat_stage4 wheat_stage5 wheat_stage6 wheat_stage7 white_concrete white_concrete_powder white_glazed_terracotta white_shulker_box white_stained_glass white_stained_glass_pane_top white_terracotta white_tulip white_wool wither_rose yellow_concrete yellow_concrete_powder yellow_glazed_terracotta yellow_shulker_box yellow_stained_glass yellow_stained_glass_pane_top yellow_terracotta yellow_wool` })()
 
   const tileLoader = new TilesetLoader();
 
@@ -823,8 +815,6 @@ walk4`;
       this.game = game;
       this.tileData = []; // 2d array of tile indices
 
-      this.width = 128;
-      this.height = 128;
       this.worldTexture = null;
       this.tileset = tileset;
       this.needsWorldTextureUpdate = true;
@@ -841,17 +831,19 @@ walk4`;
       return this.tileData[y][x];
     }
 
+    get width() {
+      return this.game.world.width;
+    }
+
+    get height() {
+      return this.game.world.height;
+    }
+
     setTileAt(x, y, v) {
       if (this.tileInBounds(x, y)) {
         this.tileData[y][x] = this.tileset.toCode(v);
         this.needsUpdate = true;
       }
-    }
-
-    resize(width, height) {
-      this.width = width;
-      this.height = height;
-      this.clear();
     }
 
     clear() {
@@ -883,6 +875,22 @@ walk4`;
           let k = 4 * (i * width + j);
           outputArr[k] = tile % widthInTiles;
           outputArr[k + 1] = Math.floor(tile / widthInTiles);
+          let neighbors = 0; // Set b to the number of neighbors within 2 blocks
+
+          /*egg: for (let m = -1; m < 2; ++m) {
+            for (let n = -1; n < 2; ++n) {
+              let x = i + m
+              let y = j + n
+               if (this.tileInBounds(x, y))
+                neighbors += !!tileData[x][y]
+              else {
+                neighbors = 0
+                break egg
+              }
+            }
+          }*/
+
+          outputArr[k + 2] = neighbors;
           outputArr[k + 3] = 255; // opacity
         }
       }
@@ -911,7 +919,7 @@ walk4`;
       const tilesetTexture = this.tileset.getTextureObject(renderer);
       let worldGLTexture = glManager.getTexture(this.id);
 
-      if (this.needsUpdate) {
+      if (this.needsUpdate || renderer.isFirstPass) {
         gl.bindTexture(gl.TEXTURE_2D, worldGLTexture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.worldTexture);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -963,9 +971,11 @@ walk4`;
          // This is the tile we are in
          vec2 tileLookup = floor(vWorldCoord);
          
+         vec4 tileData = texture2D(worldTexture, (tileLookup + vec2(0.5, 0.5)) / worldSize) * 255.;
+         
          // the r and g values have the position in the tileset array where it should be. We center on the pixel to
          // avoid any rounding errors
-         vec2 tilePos = texture2D(worldTexture, (tileLookup + vec2(0.5, 0.5)) / worldSize).xy * 255.;
+         vec2 tilePos = tileData.xy;
          
          // Should be two integers in pixel space
          vec2 roundedTilePos = roundVec2(tilePos * tileSize);
@@ -979,7 +989,7 @@ walk4`;
          shiftAmount.y = tileSize - shiftAmount.y;
          
          gl_FragColor = texture2D(tileset, (roundedTilePos + shiftAmount) / tilesetSize);
-         gl_FragColor.rgb *= gl_FragColor.a;
+         gl_FragColor.rgb *= gl_FragColor.a * (25. - tileData.b) / 25. ;
        }`, ["vPosition"], ["transformSlopes", "transformConstants", "worldTexture", "tileset", "worldSize", "tileSize", "tilesetSize"]);
       const transformation = renderer.game.getClipToWorldTransform();
       gl.useProgram(program.program);
@@ -1143,14 +1153,13 @@ walk4`;
     }
 
   }
-  const Origin = new Vec2$1(0, 0);
-  window.Vec2 = Vec2$1;
+  const Origin = new Vec2$1(0, 0); // window.Vec2 = Vec2
 
   class BoundingBox {
     constructor(x = 0, y = 0, width = 0, height = 0) {
       // location of the box's center
-      this.cx = x + width / 2;
-      this.cy = y + height / 2;
+      this.x1 = x;
+      this.y1 = y;
       this.width = width;
       this.height = height;
     }
@@ -1166,77 +1175,70 @@ walk4`;
     }
 
     setCenter(x, y) {
-      this.cx = x;
-      this.cy = y;
+      // preserving width and height
+      this.x1 = x - this.width / 2;
+      this.y1 = y - this.height / 2;
       return this;
     }
 
-    get x1() {
-      return this.cx - this.width / 2;
+    get cx() {
+      return this.x1 + this.width / 2;
+    }
+
+    set cx(v) {
+      this.x1 = v - this.width / 2;
+    }
+
+    get cy() {
+      return this.y1 + this.height / 2;
+    }
+
+    set cy(v) {
+      this.y1 = v - this.height / 2;
     }
 
     get x2() {
-      return this.cx + this.width / 2;
-    }
-
-    get y1() {
-      return this.cy - this.height / 2;
+      return this.x1 + this.width;
     }
 
     get y2() {
-      return this.cy + this.height / 2;
-    }
-
-    getX1() {
-      return this.cx - this.width / 2;
-    }
-
-    getX2() {
-      return this.cx + this.width / 2;
-    }
-
-    getY1() {
-      return this.cy - this.height / 2;
+      return this.y1 + this.height;
     }
 
     getY2() {
-      return this.cy + this.height / 2;
+      return this.y2;
+    }
+
+    getX2() {
+      return this.x2;
     }
 
     getXBounds() {
-      let delta = this.width / 2;
-      return [this.cx - delta, this.cx + delta];
+      return [this.x1, this.x1 + width];
     }
 
     getYBounds() {
-      let delta = this.height / 2;
-      return [this.cy - delta, this.cy + delta];
+      return [this.y1, this.y1 + height];
     }
 
     setBottomMidpoint(x, y) {
       this.cx = x;
-      this.cy = y + this.height / 2;
-      return this;
-    } // bottom left in graph-like spaces, top left in canvas-like spaces
-
-
-    setX1Y1Corner(x, y) {
-      this.cx = x + this.width / 2;
-      this.cy = y + this.height / 2;
+      this.y1 = y;
       return this;
     }
 
-    setX1Y2Corner(x, y) {
-      this.cx = x + this.width / 2;
-      this.cy = y - this.height / 2;
+    shift(x, y) {
+      this.x1 += x;
+      this.y1 += y;
       return this;
     }
 
     copyFrom(bbox) {
-      this.cx = bbox.cx;
-      this.cy = bbox.cy;
+      this.x1 = bbox.x1;
+      this.y1 = bbox.y1;
       this.width = bbox.width;
       this.height = bbox.height;
+      return this;
     }
 
     getLargestBoxInsideWithAspectRatio(aspectRatio) {
@@ -1265,9 +1267,6 @@ walk4`;
       }
 
       return new BoundingBox(0, 0, newWidth, newHeight).setCenter(this.cx, this.cy);
-    }
-
-    moveToBeInside(bbox) {// translate the box so that the distance translated is minimized and the intersection with bbox is minimized
     }
 
     resizeToAspectRatio(aspectRatio) {
@@ -1303,6 +1302,53 @@ walk4`;
         y_m,
         y_b
       };
+    }
+
+    shrink(d) {
+      return new BoundingBox(this.x1 + d, this.y1 + d, this.width - 2 * d, this.height - 2 * d);
+    }
+
+    intersectWith(bbox) {
+      let tx1 = this.x1,
+          tx2 = this.getX2(),
+          ty1 = this.y1,
+          ty2 = this.getY2();
+      let bx1 = bbox.x1,
+          bx2 = bbox.getX2(),
+          by1 = bbox.y1,
+          by2 = bbox.getY2();
+      let x1 = Math.max(tx1, bx1),
+          y1 = Math.max(ty1, by1);
+      let x2 = Math.min(tx2, bx2),
+          y2 = Math.min(ty2, by2);
+
+      if (y1 <= y2 && x1 <= x2) {
+        return new BoundingBox(x1, y1, x2 - x1, y2 - y1);
+      }
+
+      return null;
+    }
+
+    zoomOn(v, amt) {
+      // Scale on v by amt
+      let newCornerX = (this.x1 - v.x) * amt + v.x;
+      let newCornerY = (this.y1 - v.y) * amt + v.y;
+      this.x1 = newCornerX;
+      this.y1 = newCornerY;
+      this.width *= amt;
+      this.height *= amt;
+    }
+
+    static fromPoints(x1, y1, x2, y2) {
+      return new BoundingBox(x1, y1, x2 - x1, y2 - y1);
+    }
+
+    clone() {
+      return new BoundingBox(this.x1, this.y1, this.width, this.height);
+    }
+
+    union(bbox) {
+      return BoundingBox.fromPoints(Math.min(this.x1, bbox.x1), Math.min(this.y1, bbox.y1), Math.max(this.x2, bbox.x2), Math.max(this.y2, bbox.y2));
     }
 
   }
@@ -1352,7 +1398,8 @@ walk4`;
       gl.enableVertexAttribArray(vPosition);
       let texture = glManager.getTexture(this.id);
 
-      if (this.needsUpdate) {
+      if (this.needsUpdate || renderer.isFirstPass) {
+        console.log("updated");
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.img);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -1392,9 +1439,10 @@ walk4`;
     };
   }
 
+  window.generateCaveWorld = generateCaveWorld;
   function generateCaveWorld(width = 128, height = 128, seed = 0) {
     const random = mulberry32(seed);
-    const caveBlock = tileset.toCode("andesite");
+    const caveBlock = tileset.toCode("stone");
     const airBlock = tileset.toCode("air"); // We'll use automata to do this
 
     const proportion = 0.4,
@@ -1443,6 +1491,18 @@ walk4`;
       }
 
       arr = newArr;
+    }
+
+    let ores = [["diamond_ore", 3, 0.002], ["emerald_ore", 1, 0.006], ["iron_ore", 4, 0.02], ["coal_ore", 12, 0.02], ["redstone_ore", 6, 0.006]];
+
+    for (const ore of ores) {
+      for (let i = 0; i < height; ++i) {
+        for (let j = 0; j < width; ++j) {
+          if (arr[i][j] && Math.random() < ore[2]) {
+            arr[i][j] = tileset.toCode(ore[0]);
+          }
+        }
+      }
     } // Make the perimeter cave block
 
 
@@ -1460,10 +1520,10 @@ walk4`;
   }
 
   class EntityGroup {
-    constructor(game) {
+    constructor(game, entities) {
       this.id = generateUUID();
       this.game = game;
-      this.entities = [];
+      this.entities = entities;
     }
 
     render(renderer) {
@@ -1585,14 +1645,20 @@ walk4`;
       gl.drawArrays(gl.TRIANGLES, 0, instructions.length * 6);
     }
 
-  }
+  } // Generally the hitbox of an entity is centered over its position.
+
   class Entity {
     constructor() {
       // All in tile coordinates
       // Generally, the position of the feet
-      this.position = new Vec2(0, 0); // Hitbox, should contain the position
+      this.position = new Vec2$1(0, 0);
+      this.hitboxWidth = 0;
+      this.hitboxHeight = 0;
+    }
 
-      this.hitbox = new BoundingBox(0, 0, 0, 0);
+    getHitbox() {
+      let hitbox = new BoundingBox(0, 0, this.hitboxWidth, this.hitboxHeight);
+      return hitbox.setBottomMidpoint(this.position.x, this.position.y);
     } // Return locations in the texture, etc.
 
 
@@ -1750,24 +1816,31 @@ walk4`;
 
   }
 
-  class PlayerEntity extends Entity {
+  class EntityWithPhysics extends Entity {
     constructor() {
       super();
-      this.position = new Vec2(2.5, 2);
-      this.hitbox = new BoundingBox(0, 0, 0.8, 1.7);
-      this.fixHitbox();
-      this.state = "static1";
+      this.mass = 1;
+      this.velocity = new Vec2$1(0, 0); // tiles per tick
+
+      this.onGround = false;
     }
 
-    fixHitbox() {
-      this.hitbox.setBottomMidpoint(this.position.x, this.position.y);
+  }
+
+  class PlayerEntity extends EntityWithPhysics {
+    constructor() {
+      super();
+      this.position = new Vec2$1(2.5, 2);
+      this.hitboxWidth = 0.8;
+      this.hitboxHeight = 1.7;
+      this.state = "static1";
     }
 
     getRenderingInstructions() {
       // The panda's height is used to define the texture position. The texture will have height 1.7 and will be centered
       // horizontally on the panda's position (its feet).
       const sprite = texturePack.getLocationOf(this.state);
-      const box = new BoundingBox(0, 0, sprite.w / sprite.h * this.hitbox.height, this.hitbox.height).setBottomMidpoint(this.position.x, this.position.y);
+      const box = new BoundingBox(0, 0, this.hitboxWidth * sprite.h / sprite.w, this.hitboxHeight).setBottomMidpoint(this.position.x, this.position.y);
       return {
         tileCoords: [box.x1, box.y2, box.x2, box.y1],
         textureCoords: [sprite.x, sprite.y, sprite.x + sprite.w, sprite.y + sprite.h]
@@ -1775,27 +1848,72 @@ walk4`;
     }
 
     render(renderer) {
-      renderer.addDebugger(new RectangleDebugger(this.hitbox));
+      renderer.addDebugger(new RectangleDebugger(this.getHitbox()));
       renderer.addDebugger(new PointDebugger(this.position));
+    }
+
+    jump() {
+      if (this.onGround) {
+        this.velocity.y += 0.7;
+      }
+    }
+
+    moveLeftOrRight(unit = 1) {
+      let mvAmount = this.onGround ? 0.05 : 0.02;
+      let maxVelo = this.onGround ? 0.6 : 0.1;
+      const velocity = this.velocity;
+      const currentVelo = velocity.x;
+      let intendedMvAmount = unit * mvAmount;
+
+      if (Math.abs(currentVelo + intendedMvAmount) > maxVelo) ; else {
+        velocity.x = currentVelo + intendedMvAmount;
+      }
+    }
+
+    moveLeft() {
+      // max x left velocity is 0.2, so we increment slowly to it
+      this.moveLeftOrRight(-1);
+    }
+
+    moveRight() {
+      this.moveLeftOrRight(1);
     }
 
   }
 
-  // The maximum number of times we call tick() when we're drifting over
   const maxTicksBeforeLagBack = 5;
-
-  function createTicker(tickCallback, tickLength = 1 / 60
+  function createTicker(tickCallback, tickLength = 1
   /*seconds*/
   ) {
     tickLength = tickLength * 1000; // ms
-
     let startTime;
     let tickIndex;
     let isRunning = false;
+    let historyLen = 5;
+    let tickTimeHistory = [];
 
     function doTick() {
+      let tickStart = Date.now();
       tickIndex++;
       tickCallback();
+      let tickEnd = Date.now();
+      let tickTime = tickEnd - tickStart;
+      tickTimeHistory.push(tickTime);
+
+      if (tickTimeHistory.length > historyLen) {
+        tickTimeHistory.shift();
+      }
+    }
+
+    function avgTickTime() {
+      // in ms
+      return tickTimeHistory.reduce((a, b) => a + b) / tickTimeHistory.length;
+    }
+
+    function skipTicks() {
+      //console.warn(`Can't keep up! Average tick took ${avgTickTime()} ms (should be ${tickLength} ms).`)
+      startTime = Date.now();
+      tickIndex = 1;
     }
 
     function runTicks() {
@@ -1803,23 +1921,25 @@ walk4`;
       let currentTime = Date.now();
       let expectedTime = startTime + tickLength * tickIndex;
 
-      cow: if (expectedTime > currentTime + tickLength) {
+      if (expectedTime > currentTime + tickLength) {
         // we're more than half a tick early; skip this tick without incrementing tickIndex
-        console.log(`Tick ${tickIndex} should come at t=${expectedTime}, while it is t=${currentTime}; skipping tick invocation`);
         setTimeout(runTicks, currentTime - expectedTime);
       } else if (expectedTime < currentTime - tickLength) {
-        // more than a tick late; call tick() multiple times to catch up
-        for (let i = 0; i < maxTicksBeforeLagBack; ++i) {
-          doTick();
+        if (expectedTime < currentTime - 5 * tickLength) {
+          skipTicks();
+        } else {
+          // else, call tick() multiple times to catch up
+          for (let i = 0; i < maxTicksBeforeLagBack; ++i) {
+            doTick();
+            let delta = startTime + tickLength * tickIndex - Date.now(); // successfully caught up
 
-          if (startTime + tickLength * tickIndex - Date.now() < tickLength) {
-            break cow;
+            if (delta < tickLength) {
+              break;
+            } else if (delta > maxTicksBeforeLagBack * tickLength) {
+              skipTicks();
+            }
           }
-        } // Time to lag and reset everything
-
-
-        startTime = Date.now();
-        tickIndex = 1;
+        }
       } else {
         doTick();
       }
@@ -1836,23 +1956,123 @@ walk4`;
       start: () => {
         isRunning = true;
         startTime = Date.now();
-        tickIndex = 1;
+        tickIndex = 0;
         setTimeout(runTicks, 0);
       },
       stop: () => {
         isRunning = false;
+      },
+      getTickCount: () => {
+        return tickIndex;
+      },
+      getAvgTickTime: () => {
+        return avgTickTime();
       }
     };
-  }
-
-  window.createTicker = createTicker; // The physics engine runs at a different speed than the renderer. One physics tick is 1/60th of a second.
+  } // The physics engine runs at a different speed than the renderer. One physics tick is 1/30th of a second.
 
   class PhysicsEngine {
     constructor(game) {
       this.game = game;
+      this.gravityAcceleration = -0.07; // tiles per tick per tick
     }
 
-    tick() {}
+    get entities() {
+      return this.game.world.entities;
+    }
+
+    get physicalTiles() {
+      return this.game.world.physicalTiles;
+    }
+
+    getPhysicalTileGeometriesInRange(bbox) {
+      // bounding box of the entity's tick movement. We search through the tiles in this range, reporting their bounding
+      // boxes
+      this.physicalTiles;
+    }
+
+    tick() {
+      // In this tick based system, we first compute the movement, which gives a new velocity, then we apply the forces
+      // to that velocity. The velocity is in tiles / tick.
+      const {
+        entities,
+        tickLength,
+        physicalTiles
+      } = this;
+
+      for (const entity of entities) {
+        if (!entity.velocity) return; // not a physics entity
+
+        const {
+          position,
+          velocity
+        } = entity;
+        const effectiveVelocity = velocity.clone(); // modify velocity (gravity)
+
+        effectiveVelocity.add(new Vec2$1(0, this.gravityAcceleration)); // compute hitbox
+
+        const hitbox = entity.getHitbox(); // COMPUTE NEXT INTENDED POSITION
+
+        const nextPosition = position.clone().add(effectiveVelocity); // compute next hitbox
+
+        const nextHitbox = hitbox.clone().shift(effectiveVelocity.x, effectiveVelocity.y); // Together this forms a sort pf parallelepiped like this. We want to know whether this intersects any objects,
+        // and if so, where, and at what time within the tick.
+        //  ----------
+        // |          |\
+        // |          | \
+        // |          |  \
+        // |          |   \
+        // |          |    \
+        // ------------     \
+        //  \          \     \
+        //   \     -----------
+        //    \    |    \     |
+        //     \   |     \    |
+        //      \  |      \   |
+        //       \ |       \  |
+        //        \|        \ |
+        //         ------------
+        // Box containing the entire tick
+
+        const bbox = hitbox.union(nextHitbox);
+        let xmin = Math.floor(bbox.x1),
+            xmax = Math.ceil(bbox.x2) + 1;
+        let ymin = Math.floor(bbox.y1),
+            ymax = Math.ceil(bbox.y2) + 1;
+
+        const velocityUnit = effectiveVelocity.unit();
+        entity.onGround = false;
+
+        for (let x = Math.max(xmin, 0); x < Math.min(physicalTiles.width, xmax); ++x) {
+          for (let y = Math.max(ymin, 0); y < Math.min(physicalTiles.height, ymax); ++y) {
+            const tile = physicalTiles.tileData[y][x];
+
+            if (tile) {
+              // block to collide with, which is at (x, y) to (x+1, y+1)
+              if (nextHitbox) {
+                const intersection = nextHitbox.intersectWith(new BoundingBox(x, y, 1, 1));
+
+                if (intersection) {
+                  if (intersection.width < intersection.height) {
+                    effectiveVelocity.x = 0;
+                    nextPosition.x += -intersection.width * Math.sign(velocityUnit.x);
+                  } else {
+                    effectiveVelocity.y = 0;
+                    nextPosition.y += -intersection.height * Math.sign(velocityUnit.y); // On the ground, so slow movements
+
+                    effectiveVelocity.x *= 0.74;
+                    entity.onGround = true;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        position.set(nextPosition);
+        velocity.set(effectiveVelocity);
+      }
+    }
 
   }
 
@@ -1888,25 +2108,55 @@ walk4`;
       this.viewport = new BoundingBox(0, 0, 32, 32).setCenter(0, 0); // What is the bounding box in tile space
 
       this.world = {
-        width: 128,
-        height: 128,
-        physicalTiles: new TileLayer(this),
+        width: 512,
+        height: 512,
         backgroundImage: new BackgroundImage(this, testBackground),
-        entities: new EntityGroup(this)
+        entities: []
       };
+      this.world.physicalTiles = new TileLayer(this);
+      this.world.entityGroup = new EntityGroup(this, this.world.entities); // for rendering
+
+      this.player = new PlayerEntity();
+      this.world.entities.push(this.player);
+      this.ticker = createTicker(() => {
+        this.tick();
+      }, 1 / 30);
       this.keyboard = new Keyboard();
       window.addEventListener("resize", () => {
         this.resize();
       });
+      this.canvas.addEventListener("wheel", evt => {
+        let y = evt.deltaY;
+        this.zoomOn(this.clientVecToTile(new Vec2$1(evt.clientX, evt.clientY)), y / 400 + 1);
+      });
+      this.canvas.addEventListener("mousemove", evt => this.onMouseMove(evt));
+      this.canvas.addEventListener("mousedown", evt => this.onMouseDown(evt));
+      this.canvas.addEventListener("mouseup", evt => this.onMouseUp(evt));
       this.gameRunning = false;
     }
 
     start() {
       this.gameRunning = true;
-      requestAnimationFrame(() => this.gameLoop());
+      this.ticker.start();
+      requestAnimationFrame(() => this.renderLoop());
+    }
+
+    tick() {
+      this.handleInputs(); //this.physicsEngine.tick()
+    }
+
+    clientVecToTile({
+      x,
+      y
+    }) {
+      const rect = game.canvas.getBoundingClientRect();
+      const canvToTile = this.getCanvasToWorldTransform();
+      let canvPos = new Vec2$1(x - rect.x, y - rect.y);
+      return canvPos.transform(canvToTile);
     }
 
     stop() {
+      this.ticker.stop();
       this.gameRunning = false;
     }
 
@@ -1916,6 +2166,10 @@ walk4`;
 
     getWorldToCanvasTransform() {
       return BoundingBox.getReducedTransform(this.viewport, this.getCanvasBBox(), false, true);
+    }
+
+    getCanvasToWorldTransform() {
+      return BoundingBox.getReducedTransform(this.getCanvasBBox(), this.viewport, false, true);
     }
 
     getWorldToClipTransform() {
@@ -1931,15 +2185,21 @@ walk4`;
     }
 
     maintainValidViewport() {
-      if (this.viewport.width > this.world.width) this.viewport.width = this.world.width;
-      if (this.viewport.height > this.world.height) this.viewport.height = this.world.height;
+      //if (this.viewport.width > this.world.width) this.viewport.width = this.world.width
+      //if (this.viewport.height > this.world.height) this.viewport.height = this.world.height
       this.viewport.resizeToAspectRatio(aspectRatio);
+
+      if (this.viewport.x2 < 0 || this.viewport.x1 > this.world.width) ;
     }
 
     zoom(s) {
       // TODO
       this.viewport.width /= s;
       this.viewport.height /= s;
+    }
+
+    zoomOn(v, dX) {
+      this.viewport.zoomOn(v, dX);
     }
 
     resize() {
@@ -1992,18 +2252,44 @@ walk4`;
       const moveDir = new Vec2$1(keyboard.isKeyPressed("ArrowRight") - keyboard.isKeyPressed("ArrowLeft"), keyboard.isKeyPressed("ArrowUp") - keyboard.isKeyPressed("ArrowDown")).unit().scale(movementSpeed);
       viewport.cx += moveDir.x;
       viewport.cy += moveDir.y;
+
+      if (keyboard.isKeyPressed(" ")) {
+        this.player.jump();
+      } else if (keyboard.isKeyPressed("a")) {
+        this.player.moveLeft();
+      } else if (keyboard.isKeyPressed("d")) {
+        this.player.moveRight();
+      }
     }
 
-    gameLoop() {
+    onMouseMove(evt) {
+      if (this.isDragging) {
+        let dragCenter = this.dragCenter;
+        let currCenter = this.clientVecToTile(new Vec2$1(evt.clientX, evt.clientY)); // Need currCenter to coincide with dragCenter
+
+        this.viewport.x1 += dragCenter.x - currCenter.x;
+        this.viewport.y1 += dragCenter.y - currCenter.y;
+      }
+    }
+
+    onMouseUp(m) {
+      this.isDragging = false;
+    }
+
+    onMouseDown(evt) {
+      this.isDragging = true;
+      this.dragCenter = this.clientVecToTile(new Vec2$1(evt.clientX, evt.clientY));
+    }
+
+    renderLoop() {
       if (!this.gameRunning) return;
-      this.handleInputs();
       this.maintainValidViewport();
       const {
         world
       } = this;
-      this.renderer.render([world.backgroundImage, world.physicalTiles, world.entities]);
+      this.renderer.render([world.backgroundImage, world.physicalTiles, world.entityGroup]);
       requestAnimationFrame(() => {
-        this.gameLoop();
+        this.renderLoop();
       });
     }
 
@@ -2014,15 +2300,14 @@ walk4`;
     const game = new Game();
     document.body.appendChild(game.domElement);
     game.resize();
-    game.world.physicalTiles.tileData = generateCaveWorld(128, 128);
+    game.world.physicalTiles.tileData = generateCaveWorld(game.world.width, game.world.height);
     game.world.physicalTiles.markUpdate();
-    game.world.entities.entities.push(new PlayerEntity());
     game.start();
     window.game = game;
     window.renderer = game.renderer;
     window.gl = game.renderer.gl;
     window.world = game.world;
-    window.player = game.world.entities.entities[0]; //for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
+    window.player = game.world.entities[0]; //for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
   };
 
 }());

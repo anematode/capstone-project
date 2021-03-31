@@ -76,6 +76,24 @@ export class TileLayer {
         outputArr[k] = (tile % widthInTiles)
         outputArr[k+1] = Math.floor(tile / widthInTiles)
 
+        let neighbors = 0
+
+        // Set b to the number of neighbors within 2 blocks
+        /*egg: for (let m = -1; m < 2; ++m) {
+          for (let n = -1; n < 2; ++n) {
+            let x = i + m
+            let y = j + n
+
+            if (this.tileInBounds(x, y))
+              neighbors += !!tileData[x][y]
+            else {
+              neighbors = 0
+              break egg
+            }
+          }
+        }*/
+
+        outputArr[k+2] = neighbors
         outputArr[k+3] = 255 // opacity
       }
     }
@@ -151,9 +169,11 @@ export class TileLayer {
          // This is the tile we are in
          vec2 tileLookup = floor(vWorldCoord);
          
+         vec4 tileData = texture2D(worldTexture, (tileLookup + vec2(0.5, 0.5)) / worldSize) * 255.;
+         
          // the r and g values have the position in the tileset array where it should be. We center on the pixel to
          // avoid any rounding errors
-         vec2 tilePos = texture2D(worldTexture, (tileLookup + vec2(0.5, 0.5)) / worldSize).xy * 255.;
+         vec2 tilePos = tileData.xy;
          
          // Should be two integers in pixel space
          vec2 roundedTilePos = roundVec2(tilePos * tileSize);
@@ -167,7 +187,7 @@ export class TileLayer {
          shiftAmount.y = tileSize - shiftAmount.y;
          
          gl_FragColor = texture2D(tileset, (roundedTilePos + shiftAmount) / tilesetSize);
-         gl_FragColor.rgb *= gl_FragColor.a;
+         gl_FragColor.rgb *= gl_FragColor.a * (25. - tileData.b) / 25. ;
        }`, ["vPosition"], ["transformSlopes", "transformConstants", "worldTexture", "tileset", "worldSize", "tileSize", "tilesetSize"])
 
     const transformation = renderer.game.getClipToWorldTransform()
