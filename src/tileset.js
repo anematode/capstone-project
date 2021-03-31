@@ -45,7 +45,7 @@ export class TilesetLoader {
 
     // We wish to generate a texture with power-of-two side lengths, so we find the next power of two of tileImageCount + 1
 
-    const exponent = Math.ceil(Math.log2(tileImageCount + 1))
+    const exponent = Math.ceil(Math.log2(tileImageCount + 2))
 
     let textureHeightInTiles = 2 ** ((exponent - (exponent % 2)) / 2)
     let textureWidthInTiles = 2 ** exponent / textureHeightInTiles

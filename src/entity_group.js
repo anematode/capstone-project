@@ -1,17 +1,17 @@
 import {generateUUID} from "./tile_layer"
 import {texturePack} from "./main_textiles"
 import {BoundingBox} from "./bounding_box"
+import {Vec2} from "./vec2"
 
 export class EntityGroup {
-  constructor (game) {
+  constructor (game, entities) {
     this.id = generateUUID()
     this.game = game
 
-    this.entities = []
+    this.entities = entities
   }
 
   render (renderer) {
-
     const renderingInstructions = []  // Array of instructions:  { textureCoords : [ x1, y1, x2, y2 ], tileCoords: [ x1, y1, x2, y2 ] }
 
     for (const entity of this.entities) {
@@ -147,6 +147,7 @@ export class EntityGroup {
   }
 }
 
+// Generally the hitbox of an entity is centered over its position.
 
 export class Entity {
   constructor () {
@@ -155,8 +156,13 @@ export class Entity {
     // Generally, the position of the feet
     this.position = new Vec2(0, 0)
 
-    // Hitbox, should contain the position
-    this.hitbox = new BoundingBox(0, 0, 0, 0)
+    this.hitboxWidth = 0
+    this.hitboxHeight = 0
+  }
+
+  getHitbox () {
+    let hitbox = new BoundingBox(0, 0, this.hitboxWidth, this.hitboxHeight)
+    return hitbox.setBottomMidpoint(this.position.x, this.position.y)
   }
 
   // Return locations in the texture, etc.

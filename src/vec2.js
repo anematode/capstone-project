@@ -124,4 +124,4 @@ export class Vec2 {
 
 const Origin = new Vec2(0,0)
 
-window.Vec2 = Vec2
+// window.Vec2 = Vec2

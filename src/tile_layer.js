@@ -16,9 +16,6 @@ export class TileLayer {
 
     this.tileData = [] // 2d array of tile indices
 
-    this.width = 128
-    this.height = 128
-
     this.worldTexture = null
     this.tileset = tileset
 
@@ -37,19 +34,20 @@ export class TileLayer {
     return this.tileData[y][x]
   }
 
+  get width () {
+    return this.game.world.width
+  }
+
+  get height () {
+    return this.game.world.height
+  }
+
   setTileAt (x, y, v) {
     if (this.tileInBounds(x, y)) {
       this.tileData[y][x] = this.tileset.toCode(v)
 
       this.needsUpdate = true
     }
-  }
-
-  resize (width, height) {
-    this.width = width
-    this.height = height
-
-    this.clear()
   }
 
   clear () {
