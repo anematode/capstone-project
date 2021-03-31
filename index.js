@@ -263,6 +263,7 @@
       this.game = game;
       const canvas = this.canvas = game.canvas;
       this.canvasCtx = canvas.getContext("2d");
+      this.debuggers = [];
       this.glCanvas = document.createElement("canvas");
       let gl = this.gl = this.glCanvas.getContext("webgl", {
         preserveDrawingBuffer: true,
@@ -342,13 +343,26 @@
     render(instructions = []) {
       this.clearCanvas();
       this.clearGLCanvas();
+      this.clearDebuggers();
 
       for (const elem of instructions) {
         elem.render(this);
+      }
+
+      for (const debug of this.debuggers) {
+        debug.render(this);
       } // Copy over
 
 
       this.copyGLCanvas();
+    }
+
+    clearDebuggers() {
+      this.debuggers = [];
+    }
+
+    addDebugger(obj) {
+      this.debuggers.push(obj);
     }
 
   }
@@ -727,11 +741,15 @@
     }
 
     get width() {
-      return;
+      return this.texture.width;
+    }
+
+    get height() {
+      return this.texture.height;
     }
 
     getLocationOf(key) {
-      return this.textureImages[key];
+      return this.textureLocations[key];
     }
 
     getNullTexture() {
@@ -824,7 +842,10 @@ walk4`;
     }
 
     setTileAt(x, y, v) {
-      this.needsUpdate = true;
+      if (this.tileInBounds(x, y)) {
+        this.tileData[y][x] = this.tileset.toCode(v);
+        this.needsUpdate = true;
+      }
     }
 
     resize(width, height) {
@@ -897,14 +918,14 @@ walk4`;
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); // use nearest
 
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST); // Load in a rectangle geometry
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+      } // Load in a rectangle geometry
 
-        const rectangle = new Float32Array([-1, 1, 1, 1, -1, -1, 1, -1]);
-        const buf = glManager.getBuffer(this.id);
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.bufferData(gl.ARRAY_BUFFER, rectangle, gl.STATIC_DRAW);
-      }
 
+      const rectangle = new Float32Array([-1, 1, 1, 1, -1, -1, 1, -1]);
+      const buf = glManager.getBuffer(this.id);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, rectangle, gl.STATIC_DRAW);
       gl.activeTexture(gl.TEXTURE0); // bind tileset to texture 0
 
       gl.bindTexture(gl.TEXTURE_2D, tilesetTexture);
@@ -1018,9 +1039,14 @@ walk4`;
       this.y = y;
     }
 
-    set(v) {
-      this.x = v.x;
-      this.y = v.y;
+    set(v, y) {
+      if (y !== undefined) {
+        this.x = v;
+        this.y = y;
+      } else {
+        this.x = v.x;
+        this.y = v.y;
+      }
     }
 
     subtract(v) {
@@ -1189,7 +1215,8 @@ walk4`;
 
     setBottomMidpoint(x, y) {
       this.cx = x;
-      this.cy = y - this.height / 2;
+      this.cy = y + this.height / 2;
+      return this;
     } // bottom left in graph-like spaces, top left in canvas-like spaces
 
 
@@ -1440,7 +1467,7 @@ walk4`;
     }
 
     render(renderer) {
-      const renderingInstructions = []; // Flat array of (tl x, tl y, br x, br y, same in texture space, ... )
+      const renderingInstructions = []; // Array of instructions:  { textureCoords : [ x1, y1, x2, y2 ], tileCoords: [ x1, y1, x2, y2 ] }
 
       for (const entity of this.entities) {
         // From each entity, ask for the texture coordinates and where it'd like to be drawn. Specifically we get
@@ -1448,13 +1475,10 @@ walk4`;
         // (coord of bottom right in texture). An array of these can also be given, in which case they will all be
         // drawn.
         const instructions = entity.getRenderingInstructions();
-
-        for (let i = 0; i < instructions.length; ++i) {
-          renderingInstructions.push(instructions[i]);
-        }
+        if (Array.isArray(instructions)) Array.prototype.push(renderingInstructions, instructions);else renderingInstructions.push(instructions);
       }
 
-      this.renderSprites(renderer, renderingInstructions.flat()); // Then render whatever the entity desires
+      this.renderSprites(renderer, renderingInstructions); // Then render whatever the entity desires
 
       for (const entity of this.entities) {
         entity.render(renderer);
@@ -1468,85 +1492,367 @@ walk4`;
         gl,
         glManager,
         game
-      } = renderer; // How many rectangular textures need to be drawn
+      } = renderer;
+      if (instructions.length === 0) return; // Tile space positions
+      // For each rectangle we need six vertices, so twelve coordinates
 
-      const rectToDraw = Math.floor(instructions.length / 8); // Tile space,
+      const positionArray = new Float32Array(instructions.length * 12); // Texture pixel space, what part of the texture should we be mapping to
 
-      const positionArray = new Float32Array(rectToDraw * 4); // Texture pixel space, what part of the texture should we be mapping to
+      const textureCoordArray = new Float32Array(instructions.length * 12);
 
-      const textureCoordArray = new Float32Array(rectToDraw * 4); // Copy over instructions
+      for (let i = 0; i < instructions.length; ++i) {
+        // construct rectangles
+        const instruction = instructions[i];
+        const indx = 12 * i;
+        const {
+          textureCoords,
+          tileCoords
+        } = instruction;
+        positionArray[indx] = tileCoords[0];
+        positionArray[indx + 1] = tileCoords[1];
+        positionArray[indx + 2] = tileCoords[2];
+        positionArray[indx + 3] = tileCoords[3];
+        positionArray[indx + 4] = tileCoords[0];
+        positionArray[indx + 5] = tileCoords[3];
+        positionArray[indx + 6] = tileCoords[0];
+        positionArray[indx + 7] = tileCoords[1];
+        positionArray[indx + 8] = tileCoords[2];
+        positionArray[indx + 9] = tileCoords[3];
+        positionArray[indx + 10] = tileCoords[2];
+        positionArray[indx + 11] = tileCoords[1];
+        textureCoordArray[indx] = textureCoords[0];
+        textureCoordArray[indx + 1] = textureCoords[1];
+        textureCoordArray[indx + 2] = textureCoords[2];
+        textureCoordArray[indx + 3] = textureCoords[3];
+        textureCoordArray[indx + 4] = textureCoords[0];
+        textureCoordArray[indx + 5] = textureCoords[3];
+        textureCoordArray[indx + 6] = textureCoords[0];
+        textureCoordArray[indx + 7] = textureCoords[1];
+        textureCoordArray[indx + 8] = textureCoords[2];
+        textureCoordArray[indx + 9] = textureCoords[3];
+        textureCoordArray[indx + 10] = textureCoords[2];
+        textureCoordArray[indx + 11] = textureCoords[1];
+      } //console.log(positionArray, textureCoordArray)
 
-      for (let i = 0; i < rectToDraw; ++i) {
-        const instructionsIndx = i * 8;
-        const arrayIndx = i * 4;
 
-        for (let j = 0; j < 4; ++j) {
-          positionArray[arrayIndx + j] = instructions[instructionsIndx + j];
-          textureCoordArray[arrayIndx + j] = instructions[instructionsIndx + j + 4];
-        }
-      } // Transformation from tiles
-
-
-      glManager.getBuffer(this.id + 'pos');
-      glManager.getBuffer(this.id + 'texCoord');
       const glTexturePack = texturePack.getTextureObject(renderer);
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, glTexturePack);
-      const program = (_glManager$getProgram = glManager.getProgram("TileLayer")) !== null && _glManager$getProgram !== void 0 ? _glManager$getProgram : glManager.createProgram("TileLayer", // In the vertex shader, we set the vec2 vWorldCoord to the location in the world texture where we're drawing.
+      const program = (_glManager$getProgram = glManager.getProgram("EntityGroup")) !== null && _glManager$getProgram !== void 0 ? _glManager$getProgram : glManager.createProgram("EntityGroup", // In the vertex shader, we set the vec2 vWorldCoord to the location in the world texture where we're drawing.
       // The location in the world texture is the same as the tileData, so this is done via a transformation of
       // coordinates, namely the transformation returned by game.getClipToWorldTransform()
-      `precision mediump float;
-       attribute vec2 vPosition;
+      `attribute vec2 vPosition;
+       attribute vec2 vTextureCoord;
        
-       uniform vec2 transformSlopes;
-       uniform vec2 transformConstants;
+       varying highp vec2 vTextureCoordInterp;
        
-       varying vec2 vWorldCoord;
+       uniform vec2 tileToClipSlopes;
+       uniform vec2 tileToClipConstants;
+       
+       uniform vec2 textureSize;
 
-       void main() {
-         gl_Position = vec4(vPosition, 0, 1);
-         vWorldCoord = transformSlopes * vPosition + transformConstants;
-       }`, `precision mediump float;
-       varying vec2 vWorldCoord; // Where in the world we are, perhaps between (0,0) and (32,18)
-       
-       uniform sampler2D worldTexture;
-       uniform sampler2D tileset;
-       uniform vec2 worldSize; // Know where to look in the world texture
-       uniform float tileSize; // in pixels
-       uniform vec2 tilesetSize; // width and height of the tileset in pixels
-       
-       vec2 roundVec2(vec2 v) {
-         return vec2(floor(v.x + 0.5), floor(v.y + 0.5));
-       }
-       
-       void main() {
-         // This is the tile we are in
-         vec2 tileLookup = floor(vWorldCoord);
-         
-         // the r and g values have the position in the tileset array where it should be. We center on the pixel to
-         // avoid any rounding errors
-         vec2 tilePos = texture2D(worldTexture, (tileLookup + vec2(0.5, 0.5)) / worldSize).xy * 255.;
-         
-         // Should be two integers in pixel space
-         vec2 roundedTilePos = roundVec2(tilePos * tileSize);
-         
-         // We now need the location of the texel WITHIN the tile. We use the difference between the vWorldCoord and
-         // the vec used for the tile lookup, to avoid rounding errors. because we're using gl nearest, we again try
-         // to round to the nearest pixel and sample it at its center. We also have to FLIP the y axis value, because the tiles are
-         // upside down relative to this.
-         
-         vec2 shiftAmount = floor((vWorldCoord - tileLookup) * tileSize) + vec2(0.5, 0.5);
-         shiftAmount.y = tileSize - shiftAmount.y;
-         
-         gl_FragColor = texture2D(tileset, (roundedTilePos + shiftAmount) / tilesetSize);
-         gl_FragColor.rgb *= gl_FragColor.a;
-       }`, ["vPosition"], ["transformSlopes", "transformConstants", "worldTexture", "tileset", "worldSize", "tileSize", "tilesetSize"]);
-      renderer.game.getClipToWorldTransform();
+        void main() {
+            gl_Position = vec4(tileToClipSlopes * vPosition + tileToClipConstants, 0, 1);
+            vTextureCoordInterp = vTextureCoord / textureSize;
+        }`, `precision mediump float;
+        varying highp vec2 vTextureCoordInterp;
+        uniform sampler2D texturePack;
+        
+        void main() {
+          gl_FragColor = texture2D(texturePack, vTextureCoordInterp);
+          gl_FragColor.rgb *= gl_FragColor.a;
+        }
+       `, ["vPosition", "vTextureCoord"], ["tileToClipSlopes", "tileToClipConstants", "textureSize", "texturePack"]);
       gl.useProgram(program.program);
       const vPosition = program.attribs.vPosition;
+      const vTextureCoord = program.attribs.vTextureCoord;
+      const posArrayBuffer = glManager.getBuffer(this.id + 'pos');
+      const texCoordArrayBuffer = glManager.getBuffer(this.id + 'texCoord');
+      gl.bindBuffer(gl.ARRAY_BUFFER, posArrayBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, positionArray, gl.DYNAMIC_DRAW);
       gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
       gl.enableVertexAttribArray(vPosition);
+      gl.bindBuffer(gl.ARRAY_BUFFER, texCoordArrayBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, textureCoordArray, gl.DYNAMIC_DRAW);
+      gl.vertexAttribPointer(vTextureCoord, 2, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(vTextureCoord);
+      const tileToClip = game.getWorldToClipTransform();
+      gl.uniform2f(program.uniforms.tileToClipSlopes, tileToClip.x_m, tileToClip.y_m);
+      gl.uniform2f(program.uniforms.tileToClipConstants, tileToClip.x_b, tileToClip.y_b);
+      gl.uniform2f(program.uniforms.textureSize, texturePack.width, texturePack.height);
+      gl.uniform1i(program.uniforms.texturePack, 0); // texture 0, glTexturePack
+
+      gl.drawArrays(gl.TRIANGLES, 0, instructions.length * 6);
     }
+
+  }
+  class Entity {
+    constructor() {
+      // All in tile coordinates
+      // Generally, the position of the feet
+      this.position = new Vec2(0, 0); // Hitbox, should contain the position
+
+      this.hitbox = new BoundingBox(0, 0, 0, 0);
+    } // Return locations in the texture, etc.
+
+
+    getRenderingInstructions() {
+      return [];
+    }
+
+    render() {}
+
+  }
+
+  const debuggerId = "hohoho";
+
+  function getProgram(glManager) {
+    var _glManager$getProgram;
+
+    const program = (_glManager$getProgram = glManager.getProgram("Debugger")) !== null && _glManager$getProgram !== void 0 ? _glManager$getProgram : glManager.createProgram("Debugger", `attribute vec2 vPosition;
+      
+      uniform vec2 transformSlopes;
+      uniform vec2 transformConstants;
+
+        void main() {
+            gl_Position = vec4(transformSlopes * vPosition + transformConstants, 0, 1);
+        }`, `precision mediump float;
+        uniform vec4 color;
+        
+        void main() {
+          gl_FragColor = color;
+        }`, ["vPosition"], ["color", "transformSlopes", "transformConstants"]);
+    return program;
+  }
+
+  class Debugger {
+    constructor(color = {
+      r: 255,
+      g: 0,
+      b: 0,
+      a: 255
+    }, coordSpace = "world") {
+      this.color = color;
+      this.coordSpace = coordSpace; // one of "world", "clip" or "canvas"
+    }
+
+    setCoordSpace(s) {
+      this.coordSpace = s;
+      return this;
+    }
+
+    setColor(r, g, b, a = 255) {
+      this.color.r = r;
+      this.color.g = g;
+      this.color.b = b;
+      this.color.a = a;
+    }
+
+    render(renderer, geometry, mode = "LINE_STRIP") {
+      const {
+        gl,
+        glManager,
+        canvasWidth,
+        canvasHeight,
+        width,
+        height
+      } = renderer;
+      const program = getProgram(glManager);
+      gl.useProgram(program.program);
+      const vPosition = program.attribs.vPosition;
+      const posArrayBuffer = glManager.getBuffer(debuggerId);
+      gl.bindBuffer(gl.ARRAY_BUFFER, posArrayBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, geometry, gl.DYNAMIC_DRAW);
+      gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(vPosition);
+      let transform;
+
+      switch (this.coordSpace) {
+        case "world":
+          transform = game.getWorldToClipTransform();
+          break;
+
+        case "canvas":
+          transform = game.getCanvasToClipTransform();
+          break;
+
+        default:
+          transform = {
+            x_m: 1,
+            y_m: 1,
+            x_b: 0,
+            y_b: 0
+          };
+      }
+
+      gl.uniform2f(program.uniforms.transformSlopes, transform.x_m, transform.y_m);
+      gl.uniform2f(program.uniforms.transformConstants, transform.x_b, transform.y_b);
+      const {
+        color
+      } = this;
+      gl.uniform4f(program.uniforms.color, color.r / 255, color.g / 255, color.b / 255, color.a / 255);
+      gl.drawArrays(gl[mode], 0, geometry.length / 2);
+    }
+
+  }
+
+  class RectangleDebugger extends Debugger {
+    // a rather inefficient, but useful thing for debugging, drawn at the end of every frame
+    constructor(rectangle, color = {
+      r: 255,
+      g: 0,
+      b: 0,
+      a: 255
+    }) {
+      super(color);
+      this.rectangle = rectangle;
+    }
+
+    render(renderer) {
+      const {
+        x1,
+        y1,
+        x2,
+        y2
+      } = this.rectangle; // Draw the rectangle
+
+      const arr = new Float32Array([x1, y1, x2, y2, x1, y2, x1, y1, x2, y1, x2, y2]);
+      super.render(renderer, arr, "LINE_STRIP");
+    }
+
+  }
+  class PointDebugger extends Debugger {
+    constructor(v, color = {
+      r: 255,
+      g: 0,
+      b: 0,
+      a: 255
+    }) {
+      super(color);
+      this.pos = v;
+      this.radius = 0.1;
+    }
+
+    render(renderer) {
+      const {
+        x,
+        y
+      } = this.pos;
+      const arr = [x, y];
+
+      for (let i = 0; i <= 8; ++i) {
+        let rad = 2 * Math.PI * i / 8;
+        arr.push(x + this.radius * Math.cos(rad), y + this.radius * Math.sin(rad));
+      }
+
+      super.render(renderer, new Float32Array(arr), "TRIANGLE_FAN");
+    }
+
+  }
+
+  class PlayerEntity extends Entity {
+    constructor() {
+      super();
+      this.position = new Vec2(2.5, 2);
+      this.hitbox = new BoundingBox(0, 0, 0.8, 1.7);
+      this.fixHitbox();
+      this.state = "static1";
+    }
+
+    fixHitbox() {
+      this.hitbox.setBottomMidpoint(this.position.x, this.position.y);
+    }
+
+    getRenderingInstructions() {
+      // The panda's height is used to define the texture position. The texture will have height 1.7 and will be centered
+      // horizontally on the panda's position (its feet).
+      const sprite = texturePack.getLocationOf(this.state);
+      const box = new BoundingBox(0, 0, sprite.w / sprite.h * this.hitbox.height, this.hitbox.height).setBottomMidpoint(this.position.x, this.position.y);
+      return {
+        tileCoords: [box.x1, box.y2, box.x2, box.y1],
+        textureCoords: [sprite.x, sprite.y, sprite.x + sprite.w, sprite.y + sprite.h]
+      };
+    }
+
+    render(renderer) {
+      renderer.addDebugger(new RectangleDebugger(this.hitbox));
+      renderer.addDebugger(new PointDebugger(this.position));
+    }
+
+  }
+
+  // The maximum number of times we call tick() when we're drifting over
+  const maxTicksBeforeLagBack = 5;
+
+  function createTicker(tickCallback, tickLength = 1 / 60
+  /*seconds*/
+  ) {
+    tickLength = tickLength * 1000; // ms
+
+    let startTime;
+    let tickIndex;
+    let isRunning = false;
+
+    function doTick() {
+      tickIndex++;
+      tickCallback();
+    }
+
+    function runTicks() {
+      if (!isRunning) return;
+      let currentTime = Date.now();
+      let expectedTime = startTime + tickLength * tickIndex;
+
+      cow: if (expectedTime > currentTime + tickLength) {
+        // we're more than half a tick early; skip this tick without incrementing tickIndex
+        console.log(`Tick ${tickIndex} should come at t=${expectedTime}, while it is t=${currentTime}; skipping tick invocation`);
+        setTimeout(runTicks, currentTime - expectedTime);
+      } else if (expectedTime < currentTime - tickLength) {
+        // more than a tick late; call tick() multiple times to catch up
+        for (let i = 0; i < maxTicksBeforeLagBack; ++i) {
+          doTick();
+
+          if (startTime + tickLength * tickIndex - Date.now() < tickLength) {
+            break cow;
+          }
+        } // Time to lag and reset everything
+
+
+        startTime = Date.now();
+        tickIndex = 1;
+      } else {
+        doTick();
+      }
+
+      setTimeout(runTicks, startTime + tickLength * tickIndex - Date.now());
+    } // The general strategy is as follows. We trust that setTimeout is somewhat competent and ask to to return (tickLength - 2) ms
+    // later. If we're faster than the linear 1/60ths of a second, we increase the setTimeout value, and if we're more than
+    // a tick ahead, we skip an invocation of tick(). If we're slower than 1/60ths of a second, we decrease the setTimeout
+    // value, and if we're quite behind (more than maxTicksBeforeLagBack) we define the new start time as current and
+    // proceed calculating ticks.
+
+
+    return {
+      start: () => {
+        isRunning = true;
+        startTime = Date.now();
+        tickIndex = 1;
+        setTimeout(runTicks, 0);
+      },
+      stop: () => {
+        isRunning = false;
+      }
+    };
+  }
+
+  window.createTicker = createTicker; // The physics engine runs at a different speed than the renderer. One physics tick is 1/60th of a second.
+
+  class PhysicsEngine {
+    constructor(game) {
+      this.game = game;
+    }
+
+    tick() {}
 
   }
 
@@ -1578,7 +1884,8 @@ walk4`;
       this.domElement = domElement;
       this.canvas = canvas;
       this.renderer = new GameRenderer(this);
-      this.viewport = new BoundingBox(0, 0, 128, 72); // What is the bounding box in tile space
+      this.physicsEngine = new PhysicsEngine(this);
+      this.viewport = new BoundingBox(0, 0, 32, 32).setCenter(0, 0); // What is the bounding box in tile space
 
       this.world = {
         width: 128,
@@ -1694,7 +2001,7 @@ walk4`;
       const {
         world
       } = this;
-      this.renderer.render([world.backgroundImage, world.physicalTiles]);
+      this.renderer.render([world.backgroundImage, world.physicalTiles, world.entities]);
       requestAnimationFrame(() => {
         this.gameLoop();
       });
@@ -1709,10 +2016,13 @@ walk4`;
     game.resize();
     game.world.physicalTiles.tileData = generateCaveWorld(128, 128);
     game.world.physicalTiles.markUpdate();
+    game.world.entities.entities.push(new PlayerEntity());
     game.start();
     window.game = game;
     window.renderer = game.renderer;
-    window.gl = game.renderer.gl; //for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
+    window.gl = game.renderer.gl;
+    window.world = game.world;
+    window.player = game.world.entities.entities[0]; //for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
   };
 
 }());
