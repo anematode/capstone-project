@@ -175,6 +175,10 @@ export class TileLayer {
          // avoid any rounding errors
          vec2 tilePos = tileData.xy;
          
+         float brightnessInfo = tileData.b;
+         
+         
+         
          // Should be two integers in pixel space
          vec2 roundedTilePos = roundVec2(tilePos * tileSize);
          

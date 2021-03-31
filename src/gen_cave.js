@@ -23,7 +23,7 @@ function mulberry32(a) {
 
 window.generateCaveWorld = generateCaveWorld
 
-export function generateCaveWorld(width=128, height=128, seed=0) {
+export function generateCaveWorld(width=128, height=128, seed=0, generations=3, doOres=true) {
   const random = mulberry32(seed)
 
   const caveBlock = tileset.toCode("stone")
@@ -31,7 +31,7 @@ export function generateCaveWorld(width=128, height=128, seed=0) {
 
   // We'll use automata to do this
 
-  const proportion = 0.4, generations = 3, starvationLimit = 10, overpopulationLimit = 25, birthNumber = 11
+  const proportion = 0.4, starvationLimit = 10, overpopulationLimit = 25, birthNumber = 11
 
   // Generate a random array
   let arr = create2DArray(width, height)
@@ -79,11 +79,13 @@ export function generateCaveWorld(width=128, height=128, seed=0) {
 
   let ores = [ ["diamond_ore", 3, 0.002], ["emerald_ore", 1, 0.006], ["iron_ore", 4, 0.02], ["coal_ore", 12, 0.02], ["redstone_ore", 6, 0.006] ]
 
-  for (const ore of ores) {
-    for (let i = 0; i < height; ++i) {
-      for (let j = 0; j < width; ++j) {
-        if (arr[i][j] && Math.random() < ore[2]) {
-          arr[i][j] = tileset.toCode(ore[0])
+  if (doOres) {
+    for (const ore of ores) {
+      for (let i = 0; i < height; ++i) {
+        for (let j = 0; j < width; ++j) {
+          if (arr[i][j] && Math.random() < ore[2]) {
+            arr[i][j] = tileset.toCode(ore[0])
+          }
         }
       }
     }

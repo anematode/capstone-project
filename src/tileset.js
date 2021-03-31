@@ -62,6 +62,7 @@ export class TilesetLoader {
 
     let i = 0
     for (const [tileName, tileImage] of Object.entries(tileImages)) {
+      console.log(tileName)
       if (tileImage.width > tileSize || tileImage.height > tileSize) // invalid tile, skip
         continue
 
