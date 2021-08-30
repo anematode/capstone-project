@@ -5807,26 +5807,20 @@ walk4`;
   let tileColors = [[0, 0, 0, 0]];
 
   function getAverageColors() {
-    console.log("hi");
-
     for (let index = 1; index < tileset.tileCount; index++) {
       tileColors[index] = averageColor(tileset.getTileData(index).data);
     }
   }
 
-  const testImg = window.testBackground = new Image();
-  testImg.src = "./assets/textures/IMG_1953.JPG";
-  testImg.onload = assetTracker.getHandle();
+  window.doImageFromURL = function doImageFromURL(url) {
+    const testImg = window.testBackground = new Image();
+    testImg.src = url;
 
-  assetTracker.onfinished = () => {
-    window.tileColors = tileColors;
-    getAverageColors(); // Add the game to the world
+    testImg.onload = () => doImage(testImg);
+  };
 
-    const game = new Game();
-    document.body.appendChild(game.domElement);
-    game.resize();
+  function doImage(testImg) {
     asyncDigest(imageToTileData(testImg), data => {
-      console.log(data);
       game.world.physicalTiles.tileData = data;
       game.world.width = data[0].length;
       game.world.height = data.length;
@@ -5836,6 +5830,27 @@ walk4`;
     }, progress => {
       document.getElementById("progress").innerText = `progress: ${progress * 100}%`;
     });
+  }
+
+  window.addEventListener('load', function () {
+    document.querySelector('input[type="file"]').addEventListener('change', function () {
+      if (this.files && this.files[0]) {
+        let img = new Image();
+
+        img.onload = () => doImage(img);
+
+        img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+      }
+    });
+  });
+
+  assetTracker.onfinished = () => {
+    window.tileColors = tileColors;
+    getAverageColors(); // Add the game to the world
+
+    const game = new Game();
+    document.body.appendChild(game.domElement);
+    game.resize();
     window.game = game;
     window.renderer = game.renderer;
     window.gl = game.renderer.gl;
