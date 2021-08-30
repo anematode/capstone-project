@@ -5,10 +5,11 @@ import {BoundingBox} from "./bounding_box"
 import {assetTracker} from "./asset_loader"
 import {BackgroundImage} from "./background_image"
 import {Vec2} from "./vec2"
-import {generateCaveWorld} from "./gen_cave"
+import {create2DArray, generateCaveWorld} from "./gen_cave"
 import {EntityGroup} from "./entity_group"
 import {PlayerEntity} from "./player_entity"
 import {PhysicsEngine, createTicker} from "./physics_engine"
+import { asyncDigest} from "./bolus"
 
 const aspectRatio = 16 / 9
 const maxGameWidth = 1920
@@ -48,8 +49,6 @@ class Game {
     }
     this.world.physicalTiles = new TileLayer(this)
     this.world.entityGroup = new EntityGroup(this, this.world.entities) // for rendering
-    this.player = new PlayerEntity()
-    this.world.entities.push(this.player)
 
     this.ticker = createTicker(() => {
       this.tick()
@@ -137,6 +136,11 @@ class Game {
 
   zoomOn (v, dX) {
     this.viewport.zoomOn(v, dX)
+  }
+
+  setCenter (x, y) {
+    this.viewport.cx = x
+    this.viewport.cy = y
   }
 
   resize () { // Resize to fill the DOM
@@ -231,22 +235,88 @@ class Game {
   }
 }
 
+function getClosestTile(r, g, b, a) {
+  let minIndex = 0, min = Infinity
+  for (let i = 1; i < tileColors.length; ++i) {
+    let color = tileColors[i]
+    let manhattan = Math.abs(color[0] - r)**2 + Math.abs(color[1] - g)**2  + Math.abs(color[2] - b)**2
+
+    if (manhattan < min) {
+      minIndex = i
+      min = manhattan
+    }
+  }
+
+  return minIndex
+}
+
+window.asyncDigest = asyncDigest
+window.imageToTileData = function* imageToTileData (img) {
+  let canvas = document.createElement('canvas')
+  let context = canvas.getContext('2d')
+  canvas.width = img.width
+  canvas.height = img.height
+  context.drawImage(img, 0, 0 )
+
+  let arr = create2DArray(img.width + 2, img.height + 2)
+  let data = context.getImageData(0, 0, img.width, img.height).data
+
+  for (let y = 0; y < img.height; ++y) {
+    for (let x = 0; x < img.width; ++x) {
+      let r = data[4 * (y * img.width + x)], g = data[4 * (y * img.width + x) + 1],
+        b = data[4 * (y * img.width + x) + 2], a = data[4 * (y * img.width + x) + 3]
+
+      arr[img.height-y][x+1] = getClosestTile(r, g, b, a)
+    }
+
+    yield y / img.height
+  }
+
+  return arr
+}
+
+function averageColor (data) { let r=0,g=0,b=0,a=0; for (let i = 0; i < data.length; i += 4) { r += data[i]; g += data[i+1]; b += data[i+2]; a += data[i+3] } let c = data.length / 4; return [r/c,g/c,b/c,a/c] }
+
+let tileColors = [[0,0,0,0]]
+
+function getAverageColors () {
+
+  for (let index = 1; index < tileset.tileCount; index++) {
+    tileColors[index] = averageColor(tileset.getTileData(index).data)
+  }
+}
+
+const testImg = window.testBackground = new Image()
+testImg.src = "./assets/textures/IMG_1953.JPG"
+testImg.onload = assetTracker.getHandle()
+
 assetTracker.onfinished = () => {
+  window.tileColors = tileColors
+  getAverageColors()
+
   // Add the game to the world
   const game = new Game()
+
   document.body.appendChild(game.domElement)
   game.resize()
 
-  game.world.physicalTiles.tileData = generateCaveWorld(game.world.width, game.world.height)
-  game.world.physicalTiles.markUpdate()
+  asyncDigest(imageToTileData(testImg), data => {
 
-  game.start()
+    game.world.physicalTiles.tileData = data
+    game.world.width = data[0].length
+    game.world.height = data.length
+    game.world.physicalTiles.markUpdate()
+
+    game.start()
+    game.setCenter(testImg.width / 2, testImg.height / 2)
+  }, progress => {
+    document.getElementById("progress").innerText = `progress: ${progress * 100}%`
+  })
 
   window.game = game
   window.renderer = game.renderer
   window.gl = game.renderer.gl
   window.world = game.world
-  window.player = game.world.entities[0]
 
   //for (let j = 0; j < 36; ++j) for (let i = 0; i < 64; ++i) game.world.physicalTiles.tileData[j][i] = (i+j+Math.floor(5*Math.random()))%60
 }

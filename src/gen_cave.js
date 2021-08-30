@@ -1,6 +1,6 @@
 import { tileset } from "./main_textiles"
 
-function create2DArray(width, height, value=0) {
+export function create2DArray(width, height, value=0) {
   // height first, then width
   const ret = []
 

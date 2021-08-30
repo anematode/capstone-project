@@ -1,20 +1,22 @@
 
 import { assetTracker, AssetLoadTracker } from "./asset_loader"
 import {generateUUID} from "./tile_layer"
+import {Vec2} from "./vec2"
 
 // Takes in a bunch of tiles of a given square size and outputs a corresponding texture object for use, and the mappings
 // of tile to number.
 export class TilesetLoader {
-  constructor (tileSize=16) {
+  constructor (tileSize=64, preloaded) {
     const handle = assetTracker.getHandle()
 
     this.subAssetTracker = new AssetLoadTracker()
     this.subAssetTracker.onfinished = () => {
-      handle()
-      this.generateTileset()
+      this.generateTileset(preloaded)
 
       if (this.onfinished)
         this.onfinished(this.tileset)
+
+      handle()
     }
 
     this.tileSize = tileSize
@@ -22,20 +24,26 @@ export class TilesetLoader {
 
     this.tileset = new Tileset()
     this.onfinished = null
+
+    this.preloaded = preloaded
   }
 
   addTile (tileName, tileFilename=tileName) {
-    const handle = this.subAssetTracker.getHandle()
-
-    const img = new Image()
-    img.src = './assets/tiles/' + tileFilename + '.png'
-    img.onload = () => {
-      handle()
-      this.tileImages[tileName] = img
+    if (this.preloaded) {
+      this.tileImages[tileName] = true
+    } else {
+      const handle = this.subAssetTracker.getHandle()
+      const img = new Image()
+      img.src = './assets/tiles/' + tileFilename
+      img.onload = () => {
+        handle()
+        this.tileImages[tileName] = img
+      }
     }
+
   }
 
-  generateTileset () {
+  generateTileset (preloaded) {
     const { tileImages, tileSize } = this
 
     const canv = document.createElement("canvas")
@@ -57,12 +65,15 @@ export class TilesetLoader {
     canv.height = textureHeight
     canv.width = textureWidth
 
+    if (preloaded) {
+      ctx.drawImage(preloaded, 0, 0)
+    }
+
     const tileCodes = {}
     const codeToTiles = [ null ]
 
     let i = 0
     for (const [tileName, tileImage] of Object.entries(tileImages)) {
-      console.log(tileName)
       if (tileImage.width > tileSize || tileImage.height > tileSize) // invalid tile, skip
         continue
 
@@ -70,8 +81,11 @@ export class TilesetLoader {
       tileCodes[tileName] = i
       codeToTiles.push(tileName)
 
-      ctx.drawImage(tileImage, 0, 0, tileSize, tileSize, tileSize * (i % textureWidthInTiles), tileSize * Math.floor(i / textureWidthInTiles), tileSize, tileSize)
+      if (!preloaded)
+        ctx.drawImage(tileImage, 0, 0, tileSize, tileSize, tileSize * (i % textureWidthInTiles), tileSize * Math.floor(i / textureWidthInTiles), tileSize, tileSize)
     }
+
+    console.log("hi", tileImages)
 
     // So that it's happily passed by reference
     this.tileset.init(tileSize, tileImages, canv, tileCodes, codeToTiles, codeToTiles.length - 1, textureWidthInTiles, textureHeightInTiles)
@@ -151,6 +165,13 @@ export class Tileset {
 
   getTileCorner (index) { // get the pixel location of a corner of a tile, in PIXELS.
     return new Vec2(index % this.widthInTiles, Math.floor(index / this.widthInTiles)).scale(this.tileSize)
+  }
+
+  getTileData (index) {
+    let corner = this.getTileCorner(index)
+
+    let tile = tileset.texture.getContext("2d").getImageData(corner.x, corner.y, this.tileSize, this.tileSize)
+    return tile
   }
 
   getTileCorners (index) {
