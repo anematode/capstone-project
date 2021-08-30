@@ -280,28 +280,19 @@ function averageColor (data) { let r=0,g=0,b=0,a=0; for (let i = 0; i < data.len
 let tileColors = [[0,0,0,0]]
 
 function getAverageColors () {
-
   for (let index = 1; index < tileset.tileCount; index++) {
     tileColors[index] = averageColor(tileset.getTileData(index).data)
   }
 }
 
-const testImg = window.testBackground = new Image()
-testImg.src = "./assets/textures/IMG_1953.JPG"
-testImg.onload = assetTracker.getHandle()
+window.doImageFromURL = function doImageFromURL (url) {
+  const testImg = window.testBackground = new Image()
+  testImg.src = url
+  testImg.onload = () => doImage(testImg)
+}
 
-assetTracker.onfinished = () => {
-  window.tileColors = tileColors
-  getAverageColors()
-
-  // Add the game to the world
-  const game = new Game()
-
-  document.body.appendChild(game.domElement)
-  game.resize()
-
+function doImage (testImg) {
   asyncDigest(imageToTileData(testImg), data => {
-
     game.world.physicalTiles.tileData = data
     game.world.width = data[0].length
     game.world.height = data.length
@@ -312,6 +303,27 @@ assetTracker.onfinished = () => {
   }, progress => {
     document.getElementById("progress").innerText = `progress: ${progress * 100}%`
   })
+}
+
+window.addEventListener('load', function() {
+  document.querySelector('input[type="file"]').addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+      let img = new Image()
+      img.onload = () => doImage(img)
+      img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+    }
+  });
+});
+
+assetTracker.onfinished = () => {
+  window.tileColors = tileColors
+  getAverageColors()
+
+  // Add the game to the world
+  const game = new Game()
+
+  document.body.appendChild(game.domElement)
+  game.resize()
 
   window.game = game
   window.renderer = game.renderer
