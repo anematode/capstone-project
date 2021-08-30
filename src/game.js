@@ -173,8 +173,8 @@ class Game {
     this.height = height / dpi
     this.width = width / dpi
 
-    domElement.style.width = this.width + 'px'
-    domElement.style.height = this.height + 'px'
+    canvas.style.width = this.width + 'px'
+    canvas.style.height = this.height + 'px'
 
     this.renderer.resize()
   }
